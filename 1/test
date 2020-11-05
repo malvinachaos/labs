@@ -1,0 +1,21 @@
+#! /usr/bin/python3
+from os import system as S
+
+
+with open("TEST", 'r') as T:
+    n = int(T.readline()[:-1])
+    for i in range(n):
+        S("clear")
+
+        print(f"Test №{i+1}", end="\n\n")
+        tmp = open("tmp_test", "w+")
+        tmp.write(T.readline()[:-1])
+        tmp.seek(0)
+        txt = tmp.read().split()
+        print(f"xc: {txt[0]} r: {txt[1]}\nxs: {txt[2]} a: {txt[3]}\nk: {txt[4]}", end="\n\n")
+        tmp.close()
+
+        command = "./half-circle_n_square < tmp_test"
+        S(command)
+        input("\n\nENTER...")
+        S("rm tmp_test")

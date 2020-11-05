@@ -1,0 +1,16 @@
+#! /usr/bin/python3
+from random import randint as R
+from sys import argv
+
+if len(argv) > 1:
+    A = open(argv[1], "w")
+    C = open(argv[2], "w")
+
+    for i in range(50):
+        A.write(str(R(-1024, 1024)) + ' ')
+        C.write(str(R(-1024, 1024)) + ' ')
+
+    A.close()
+    C.close()
+else:
+    print("Использование: ./c file1.txt file2.txt")
