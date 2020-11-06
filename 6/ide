@@ -63,7 +63,7 @@ let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/Documents/training/STD/pascal/labs/6
+cd ~/Documents/git/labs/6
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -88,11 +88,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 151 + 106) / 212)
-exe '2resize ' . ((&lines * 40 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 60 + 106) / 212)
-exe '3resize ' . ((&lines * 15 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 60 + 106) / 212)
+exe 'vert 1resize ' . ((&columns * 130 + 95) / 191)
+exe '2resize ' . ((&lines * 34 + 25) / 50)
+exe 'vert 2resize ' . ((&columns * 60 + 95) / 191)
+exe '3resize ' . ((&lines * 13 + 25) / 50)
+exe 'vert 3resize ' . ((&columns * 60 + 95) / 191)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -220,11 +220,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 75 - ((54 * winheight(0) + 28) / 56)
+let s:l = 62 - ((33 * winheight(0) + 24) / 48)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-75
+62
 normal! 0
 wincmd w
 argglobal
@@ -355,7 +355,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 16 - ((15 * winheight(0) + 20) / 40)
+let s:l = 16 - ((13 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -490,23 +490,24 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 7) / 15)
+let s:l = 1 - ((0 * winheight(0) + 6) / 13)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 151 + 106) / 212)
-exe '2resize ' . ((&lines * 40 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 60 + 106) / 212)
-exe '3resize ' . ((&lines * 15 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 60 + 106) / 212)
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 130 + 95) / 191)
+exe '2resize ' . ((&lines * 34 + 25) / 50)
+exe 'vert 2resize ' . ((&columns * 60 + 95) / 191)
+exe '3resize ' . ((&lines * 13 + 25) / 50)
+exe 'vert 3resize ' . ((&columns * 60 + 95) / 191)
 tabnext 1
+badd +1 main.pas
 badd +7 create_test
-badd +0 main.pas
-badd +0 notes
-badd +0 c
+badd +1 notes
+badd +1 c
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

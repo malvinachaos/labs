@@ -63,7 +63,7 @@ let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/Documents/training/STD/pascal/labs/5
+cd ~/Documents/git/labs/5
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -91,11 +91,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 150 + 106) / 212)
-exe '2resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 61 + 106) / 212)
-exe '3resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 61 + 106) / 212)
+exe 'vert 1resize ' . ((&columns * 130 + 95) / 191)
+exe '2resize ' . ((&lines * 29 + 25) / 50)
+exe 'vert 2resize ' . ((&columns * 60 + 95) / 191)
+exe '3resize ' . ((&lines * 17 + 25) / 50)
+exe 'vert 3resize ' . ((&columns * 60 + 95) / 191)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -223,7 +223,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 27) / 55)
+let s:l = 2 - ((1 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -358,11 +358,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 13) / 27)
+let s:l = 1 - ((0 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
+1
 normal! 023|
 wincmd w
 argglobal
@@ -493,19 +493,19 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 6 - ((5 * winheight(0) + 13) / 27)
+let s:l = 1 - ((0 * winheight(0) + 8) / 17)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
-normal! 012|
+1
+normal! 0
 wincmd w
 3wincmd w
-exe 'vert 1resize ' . ((&columns * 150 + 106) / 212)
-exe '2resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 61 + 106) / 212)
-exe '3resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 61 + 106) / 212)
+exe 'vert 1resize ' . ((&columns * 130 + 95) / 191)
+exe '2resize ' . ((&lines * 29 + 25) / 50)
+exe 'vert 2resize ' . ((&columns * 60 + 95) / 191)
+exe '3resize ' . ((&lines * 17 + 25) / 50)
+exe 'vert 3resize ' . ((&columns * 60 + 95) / 191)
 tabnext
 edit main.pas
 set splitbelow splitright
@@ -520,8 +520,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 106 + 106) / 212)
-exe 'vert 2resize ' . ((&columns * 105 + 106) / 212)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
+exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -649,7 +649,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -784,22 +784,22 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 89 - ((54 * winheight(0) + 27) / 55)
+let s:l = 89 - ((45 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 89
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 106 + 106) / 212)
-exe 'vert 2resize ' . ((&columns * 105 + 106) / 212)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
+exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 tabnext 1
 set stal=1
 badd +1 main.pas
 badd +1 build
 badd +7 notes
-badd +2 create_test
 badd +0 c
+badd +2 create_test
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif
