@@ -1,60 +1,44 @@
-PROGRAM from_Dragon_Cave;
+PROGRAM by_Marina;
 
-TYPE
-    onedim = array[1..30] of integer;
-
-VAR n, i: integer;
-    sum: integer = 0;
-    k: integer = 0;
-    Xtxt, Ytxt: text;
-    otxt: text;
-    X, Y: onedim;
+VAR x, S, E, a, X4, F: real;
+    K, one, iE, k4: integer;
 
 BEGIN
-    assign(Xtxt, 'inX.txt');
-    assign(Ytxt, 'inY.txt');
-    assign(otxt, 'out.txt');
-    reset(Xtxt);
-    reset(Ytxt);
-    rewrite(otxt);
-
     repeat
-        write('Введите количество элементов(не больше 30): ');
-        readln(n);
-    until (n >= 2) and (n <= 30);
+        write('Введите точность E, (0;1]: ');
+        readln(E);
+        write('Введите значение x, (-1;1): ');
+        readln(x);
+    until ((0 < E) and (E < 1)) and ((x > -1) and (x < 1));
 
+    iE:= trunc(ln(round(1/E))/ln(10)); {данный код вычисляет степень для 1/E}
 
-    for i:= 1 to n do
+    a:= (x * (4 - x)) / 24;
+    S:= a; 
+    K:= 2;
+    X4:= x*x*x*x;
+    F:= (2 - sin(x) - cos(x) - exp(-x)) / (2*x*x);
+
+    while (abs(a) > E) do
     begin
-        read(Xtxt, X[i]);
-        read(Ytxt, Y[i]);
+        K:= K + 1;
+        k4:= 4 * K;
+        a:= a * ((-1) * ((X4 * (k4 - x)) / ((k4+1)*(k4+2)*(k4+3)*(k4+4) * (4*(K - 1) - x))));
+        S:= S + a;
+        writeln
+        (
+            '======[', K:2, ']======', #10#13, 
+            'S = ', S:(3+iE):iE, #10#13,
+            'a = ', a:(3+iE):iE, #10#13,
+            '================', #10#13
+        );
     end;
 
-    writeln(otxt, 'Значения массива X:');
-    for i:= 1 to n do
-        write(otxt, X[i], ' ');
-    
-    writeln(otxt, #10#13);
-
-    writeln(otxt, 'Значения массива Y:');
-    for i:= 1 to n do
-        write(otxt, Y[i], ' ');
-
-    for i:= 1 to n do
-        if (X[i] > 0) and (X[i] > Y[i]) then
-        begin
-            sum:= sum + X[i];
-            k:= k + 1;
-        end;
-
-    writeln(otxt, #10#13);
-    write(otxt, 'Сумма: ');
-    write(otxt, sum);
-    writeln(otxt, ' ');
-    write(otxt, 'Количество: ');
-    write(otxt, k);
-
-    close(Xtxt);
-    close(Ytxt);
-    close(otxt);
+    writeln(
+            'X = ', X:4:iE, #10#13,
+            'Cумма ряда S(X) = ', S:(3+iE):iE, #10#13,
+            'Количество потребовавшихся итераций K = ', K, #10#13,
+            'Результат вычисления контрольной формулы F(x) = ', F:(2+iE):iE, #10#13,
+            'S(X) - F(X) = ', (S-F):(2+iE):iE
+          );
 END.

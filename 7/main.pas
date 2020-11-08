@@ -2,82 +2,88 @@ PROGRAM by_Marina;
 
 USES sysutils;
 
-TYPE twodim = array of array of integer;
+TYPE onedim = array of integer;
 
-VAR a: twodim;
-    matfile, otxt: text;
-    m, n:integer;
-    aexist, fexist: boolean;
+VAR xf, otxt: text;
+    x: onedim;
+    n, num: integer;
+    fexist, argexist: boolean;
 
-PROCEDURE matrix_i(var f: text; var x: twodim; m, n: integer);
-Var i, j, c: integer;
+PROCEDURE arr_i(var f: text; var x: onedim; n: integer);
+Var i: integer;
 Begin 
     reset(f);
-    setlength(x, m+1, n);
-    for i:= 0 to m do
-    begin
-        for j:= 0 to n do
-        begin
-            read(f, x[i, j]);
-        end;
-        
-        if i < m then
-            while not seekeoln(f) do read(f, c);
-    end;
+    setlength(x, n-1);
 
+    for i:= 0 to n-1 do
+        read(f, x[i]);
+    
     close(f);
 End;
 
-PROCEDURE fnd(var f: text; var x: twodim; m, n: integer);
-Var i, j, sum: integer;
-    k: byte;
-    flg: boolean;
-Begin
-    flg:= false;
-    k:= 1;
-    writeln(f, 'Номера строк матрицы:');
-    for i:= 0 to m do
-    begin
-        sum:= 1;
+PROCEDURE arr_o(var f: text; var x: onedim; n: integer);
+Var i: integer;
+Begin 
+    for i:= 0 to n-1 do
+        write(f, x[i], ' ');
+    write(f, #13#10);
+End;
 
-        for j:= 0 to n do
-            sum:= sum + x[i, j];
-        
-        if sum < 0 then
+
+PROCEDURE find_num(var f: text; x: onedim; n, num: integer);
+Var flg: boolean;
+    i, j: integer;
+Begin 
+    flg:= false;
+    j:= -1;
+    i:= 0;
+
+    while (not (flg) and (i < n)) do
+    begin
+        if (x[i] mod num) = 0 then
         begin
             flg:= true;
-            write(f, i, '    ');
-            if (k mod 4 = 0) then write(f, #13#10);
-            k:= k + 1;
+            j:= i + 1;
         end;
+        i:= i + 1;
     end;
 
-    if not flg then writeln(f, 'Не найдено');
-    writeln(f);
+    if flg then
+        write(f, 'В массиве есть число, кратное вашему и его номер: ', j, #13#10)
+    else 
+        write(f, 'В массиве нет числа, кратного вашему', #13#10);
+
     close(f);
 End;
+
 
 BEGIN
     fexist:= FileExists(argv[1]);
-    aexist:= (argv[1] <> '') and (argv[2] <> '');
-
-    if fexist and aexist then
+    argexist:= (argv[1] <> '') and (argv[2] <> '');
+	
+    if argexist and fexist then
     begin
-        assign(matfile, argv[1]);
+        repeat
+            write('Введите количество элементов массива(от 2 до 50): ');
+            readln(n);
+        until (n > 2) and (n < 50);
+
+        write('Введите значение, по которому прорамма будет искать кратные ему в массиве: ');
+        readln(num);
+
+        assign(xf, argv[1]);
         assign(otxt, argv[2]);
         rewrite(otxt);
 
-        repeat
-            write('Введите размерность матрицы A(сначала кол-во строк, потом столбцов, от 2 до 100): ');
-            readln(m, n);
-        until (m >= 2) and (m <= 100) and (n >= 2) and (n <= 100);
-        n:= n - 1;
-        m:= m - 1;
-
-        matrix_i(matfile, a, m, n);
-        fnd(otxt, a, m, n);
+        arr_i(xf, x, n);
+        write(otxt, 'Значения массива: ', #13#10);
+        arr_o(otxt, x, n);
+        find_num(otxt, x, n, num);
     end
-    else if not aexist then writeln('Использование:', #13#10, './main file.txt out.txt')
-    else if not fexist then writeln('Файла ', argv[1], ' не существует');
+    else if (not fexist) then
+        writeln('Файла ', argv[1], ' не существует')
+    else if (not argexist) then
+        writeln('Использование: ./main in_file.txt out_file.txt');
+
 
 END.

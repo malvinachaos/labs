@@ -2,21 +2,24 @@ PROGRAM by_Marina;
 
 USES sysutils;
 
-TYPE one = array of integer;
+TYPE onedim = array of integer;
 
-VAR xf, otxt: text;
-    n, t1, t2: integer;
-    a: one;
-    fexist: boolean;
-    argexist: boolean;
-    outexist: boolean;
+VAR Af, Cf, out: text;
+    A, C: onedim;
+    n, num: integer;
+    fexists: boolean;
+    allargs: boolean;
 
+FUNCTION pow(x: integer): integer;
+Begin
+    pow:= x*x;
+End;
 
-PROCEDURE arr_i(var f: text; var x: one; n: integer);
+PROCEDURE arr_i(var f: text; var x: onedim; n: integer);
 Var i: integer;
-Begin 
+Begin
     reset(f);
-    setlength(x, n);
+    setlength(x, n+1);
 
     for i:= 0 to n do
         read(f, x[i]);
@@ -24,82 +27,66 @@ Begin
     close(f);
 End;
 
-
-PROCEDURE arr_o(var f: text; var x: one; n: integer);
+PROCEDURE arr_o(var f: text; x: onedim; n: integer);
 Var i: integer;
-Begin 
+Begin
     for i:= 0 to n do
         write(f, x[i], ' ');
-    writeln(f, #13#10);
 End;
 
-
-PROCEDURE find_num(var f: text; var x: one; n, t1, t2: integer);
-Var i, j, num, number: integer;
-    flg: boolean;
+FUNCTION  find_num(x: onedim; y: onedim; n: integer):integer;
+Var i, num, mini, chibi: integer;
 Begin
-    writeln(f, 'Значения массива:', #13#10);
-    arr_o(f, x, n);
-    j:= 0;
-    i:= 0;
-    flg:= true;
-
-    while (i < n) and flg do
+    num:= -1;
+    mini:= pow(x[0]) - pow(y[0]);
+    for i:= 1 to n do
     begin
-        if x[i] > t2 then
+        chibi:= pow(x[i]) - pow(y[i]);
+        if (chibi < mini) then
         begin
-            j:= i;
-            flg:= false;
+            mini:= chibi;
+            num:= i+1;
         end;
-        i:= i + 1;
     end;
-
-    number:= 32767;
-
-    for i:= j to n do
-        if (x[i] > t1) and (number > x[i]) then
-        begin
-            number:= x[i];
-            num:= i + 1;
-        end;
-
-    if (number <> 32767) then writeln(f, 'Номер последнего минимального элемента: ', num)
-    else writeln(f, 'Увы, таких чисел не нашлось');
-
-    writeln(f, #13#10, #13#10);
-
+    
+    find_num:= num;
 End;
 
 BEGIN
-	fexist:= FileExists(argv[1]);
-    outexist:= FileExists(argv[2]);
-    argexist:= (argv[1] <> '') and (argv[2] <> '');
+    fexists:= FileExists(argv[1]) and FileExists(argv[2]);
+    allargs:= (argv[1] <> '') and (argv[2] <> '') and (argv[3] <> '');
 
-    if fexist and argexist then
+    if allargs and fexists then
     begin
-        assign(xf, argv[1]);
-        assign(otxt, argv[2]);
-
-        if outexist then 
-            append(otxt)
-        else 
-            rewrite(otxt);
+        assign(Af, argv[1]);
+        assign(Cf, argv[2]);
+        assign(out, argv[3]);
+        rewrite(out);
 
         repeat
-            write('Введите количетво элементов массива от 2 до 50: ');
+            write('Введите количество элементов(больше 2, но меньше 30): ');
             readln(n);
-        until (n > 2) and (n < 50);
+        until((2 < n) and (n < 50));
         n:= n - 1;
 
-        write('Введите значения для t1 и t2 соответственно: ');
-        readln(t1, t2);
+        arr_i(Af, A, n);
+        write(out, 'Значения массива A:', #13#10);
+        arr_o(out, A, n);
 
-        arr_i(xf, a, n);
-        find_num(otxt, a, n, t1, t2);
+        arr_i(Cf, C, n);
+        write(out, #13#10, #13#10, 'Значения массива C:', #13#10);
+        arr_o(out, C, n);
 
-        close(otxt);
+        write(out, #13#10, #13#10, 'Номер наименьшего из значений A^2 - C^2:', #13#10);
+        
+        num:= find_num(A, C, n);
+        
+        if num < 1 then writeln(out, 'Таких чисел нет')
+        else writeln(out, num);
+
+        close(out);
     end
-    else if (not fexist) then writeln('Файла ', argv[1], ' не существует')
-    else writeln('Использование:', #13#10, './main file_1.txt out.txt');
-
+    else if (not allargs) then writeln(#13#10, 'Использование:', #13#10,
+        './main file1.txt file2.txt out_file.txt')
+    else if (not fexists) then writeln(#13#10, 'Один или оба файла не существуют')
 END.

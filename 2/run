@@ -1,2 +1,3 @@
 #! /bin/sh
-fpc main.pas && clear && ./main ; rm main.o main
+
+fpc half-circle_n_square.pas && ./test; rm half-circle_n_square half-circle_n_square.o
