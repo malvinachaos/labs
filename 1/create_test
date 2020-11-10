@@ -1,9 +1,0 @@
-#! /usr/bin/python3
-from random import randint as r
-
-with open("TEST", "w") as T:
-    n = int(input("Введите колво тестов: "))
-    T.write(str(n) + "\n")
-    for i in range(n):
-        a = str(r(-10, 10)) + " " + str(r(1, 10)) + " " + str(r(-10, 10)) + " " + str(r(1, 10)) + " " + str(r(1, 3))
-        T.write(a + "\n")
