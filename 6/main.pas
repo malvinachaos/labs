@@ -1,16 +1,15 @@
-PROGRAM by_Marina;
-
 USES sysutils;
 
-TYPE onedim = array of integer;
+TYPE onedim = array of longint;
 
 VAR Af, Cf, out: text;
     A, C: onedim;
-    n, num: integer;
+    n: longint;
+    num: integer;
     fexists: boolean;
     allargs: boolean;
 
-FUNCTION pow(x: integer): integer;
+FUNCTION pow(x: longint): longint;
 Begin
     pow:= x*x;
 End;
@@ -35,9 +34,10 @@ Begin
 End;
 
 FUNCTION  find_num(x: onedim; y: onedim; n: integer):integer;
-Var i, num, mini, chibi: integer;
+Var i, num: integer;
+    mini, chibi: longint;
 Begin
-    num:= -1;
+    num:= 1;
     mini:= pow(x[0]) - pow(y[0]);
     for i:= 1 to n do
     begin
@@ -80,9 +80,7 @@ BEGIN
         write(out, #13#10, #13#10, 'Номер наименьшего из значений A^2 - C^2:', #13#10);
         
         num:= find_num(A, C, n);
-        
-        if num < 1 then writeln(out, 'Таких чисел нет')
-        else writeln(out, num);
+        writeln(out, num);
 
         close(out);
     end

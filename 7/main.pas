@@ -1,12 +1,10 @@
-PROGRAM by_Marina;
-
 USES sysutils;
 
 TYPE onedim = array of integer;
 
 VAR xf, otxt: text;
     x: onedim;
-    n, num: integer;
+    n, num, j: integer;
     fexist, argexist: boolean;
 
 PROCEDURE arr_i(var f: text; var x: onedim; n: integer);
@@ -30,12 +28,11 @@ Begin
 End;
 
 
-PROCEDURE find_num(var f: text; x: onedim; n, num: integer);
+FUNCTION find_num(var f: text; x: onedim; n, num: integer):integer;
 Var flg: boolean;
-    i, j: integer;
+    i: integer;
 Begin 
     flg:= false;
-    j:= -1;
     i:= 0;
 
     while (not (flg) and (i < n)) do
@@ -45,15 +42,9 @@ Begin
             flg:= true;
             j:= i + 1;
         end;
-        i:= i + 1;
     end;
 
-    if flg then
-        write(f, 'В массиве есть число, кратное вашему и его номер: ', j, #13#10)
-    else 
-        write(f, 'В массиве нет числа, кратного вашему', #13#10);
-
-    close(f);
+    find_num:= i;
 End;
 
 
@@ -78,7 +69,11 @@ BEGIN
         arr_i(xf, x, n);
         write(otxt, 'Значения массива: ', #13#10);
         arr_o(otxt, x, n);
-        find_num(otxt, x, n, num);
+        j:= find_num(otxt, x, n, num);
+
+        
+
+        close(otxt);
     end
     else if (not fexist) then
         writeln('Файла ', argv[1], ' не существует')
