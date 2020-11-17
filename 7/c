@@ -1,8 +1,0 @@
-#! /usr/bin/python3
-from random import randint as R
-from sys import argv
-
-
-with open(argv[1], "w") as x:
-    for i in range(50):
-        x.write(str(R(-1024, 1024)) + " ")

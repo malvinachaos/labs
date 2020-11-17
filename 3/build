@@ -1,3 +1,0 @@
-#! /bin/sh
-
-fpc main.pas; rm main.o
