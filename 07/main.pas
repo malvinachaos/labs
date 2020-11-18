@@ -19,7 +19,7 @@ Begin
     close(f);
 End;
 
-PROCEDURE arr_o(var f: text; var x: onedim; n: integer);
+PROCEDURE arr_o(var f: text; x: onedim; n: integer);
 Var i: integer;
 Begin 
     for i:= 0 to n-1 do
@@ -38,28 +38,25 @@ Begin
     while (not (flg) and (i < n)) do
     begin
         if (x[i] mod num) = 0 then
-        begin
-            flg:= true;
-            j:= i;
-        end;
-        i:= i + 1;
+            flg:= true
+        else i:= i + 1;
     end;
     
-    if flg then find_num:= i - 1
+    if flg then find_num:= i
     else find_num:= -1;
 End;
 
 
 BEGIN
     fexist:= FileExists(argv[1]);
-    argexist:= (argv[1] <> '') and (argv[2] <> '');
+    argexist:= ParamCount = 2;
 	
     if argexist and fexist then
     begin
         repeat
-            write('Введите количество элементов массива(от 2 до 50): ');
+            write('Введите количество элементов массива(от 1 до 50): ');
             readln(n);
-        until (n > 2) and (n < 50);
+        until (n >= 1) and (n <= 50);
 
         write('Введите значение, по которому прорамма будет искать кратные ему в массиве: ');
         readln(num);

@@ -1,11 +1,11 @@
-PROGRAM by_Marina;
+PROGRAM need_a_dispencer_here;
 
-USES sysutils;
+USES sysutils, crt;
 
 TYPE one = array of integer;
 
 VAR xf, otxt: text;
-    n, t1, t2, num: integer;
+    n, t1, t2, be, en: integer;
     a: one;
     fexist: boolean;
     argexist: boolean;
@@ -25,7 +25,7 @@ Begin
 End;
 
 
-PROCEDURE arr_o(var f: text; var x: one; n: integer);
+PROCEDURE arr_o(var f: text; x: one; n: integer);
 Var i: integer;
 Begin 
     for i:= 0 to n do
@@ -33,38 +33,53 @@ Begin
     writeln(f, #13#10);
 End;
 
-
-FUNCTION find_num(var x: one; n, t1, t2: integer): integer;
-Var i, j, num, number: integer;
-    flg, numexi: boolean;
+FUNCTION search_t2(x: one; t2, n: integer): integer;
+Var i: integer;
+    flg: boolean;
 Begin
-    j:= 0;
     i:= 0;
     flg:= true;
-    numexi:= false;
 
     while (i < n) and flg do
     begin
-        if x[i] > t2 then
-        begin
-            j:= i+1;
-            flg:= false;
-        end;
-        i:= i + 1;
+        if x[i] > t2 then flg:= false
+        else i:= i + 1;
     end;
 
-    number:= 32767;
+    if not flg then search_t2:= i
+    else search_t2:= -1;
+End;
 
-    for i:= j to n do
-        if (x[i] > t1) and (number > x[i]) then
+FUNCTION search_t1(x: one; t1, n: integer): integer;
+Var i: integer;
+    flg: boolean;
+Begin
+    i:= n;
+    flg:= true;
+
+    while (i > 0) and flg do
+        if x[i] > t1 then flg:= false
+        else i:= i - 1;
+    
+    if not flg then search_t1:= i
+    else search_t1:= -1;
+End;
+
+FUNCTION find_num(x: one; n, t1, a, b: integer): integer;
+Var i, j, num: integer;
+Begin
+    num:= x[a];
+    
+    for i:= a to b do
+    begin
+        if (x[i] > t1) and (num < x[i]) then
         begin
-            numexi:= true;
-            number:= x[i];
-            num:= i;
+            num:= x[i];
+            j:= i;
         end;
-
-    if numexi then find_num:= num 
-    else find_num:= -1;
+    end;
+    
+    find_num:= j;
 End;
 
 BEGIN
@@ -83,10 +98,9 @@ BEGIN
             rewrite(otxt);
 
         repeat
-            write('Введите количетво элементов массива от 2 до 50: ');
+            write('Введите количетво элементов массива от 1 до 50: ');
             readln(n);
-        until (n > 2) and (n < 50);
-        n:= n - 1;
+        until (n >= 2) and (n <= 50);
 
         write('Введите значения для t1 и t2 соответственно: ');
         readln(t1, t2);
@@ -94,11 +108,14 @@ BEGIN
         arr_i(xf, a, n);
         writeln(otxt, 'Значения массива:', #13#10);
         arr_o(otxt, a, n);
-        num:= find_num(a, n, t1, t2);
-
-        if (num <> -1) then writeln(otxt, 'Номер последнего минимального элемента: ', num)
+        
+        be:= search_t2(a, t2, n);
+        en:= search_t1(a, t1, n);
+ 
+        if (be <> -1) and (en <> -1) then writeln(otxt, 
+            'Номер последнего минимального элемента: ', 
+            find_num(a, n, t1, be, en))
         else writeln(otxt, 'Увы, таких чисел не нашлось');
-
 
         close(otxt);
     end
