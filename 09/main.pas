@@ -59,7 +59,7 @@ End;
 
 BEGIN
     fexist:= FileExists(argv[1]);
-    aexist:= (argv[1] <> '') and (argv[2] <> '');
+    aexist:= paramcount = 2;
 
     if fexist and aexist then
     begin
