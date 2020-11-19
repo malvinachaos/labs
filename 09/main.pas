@@ -28,7 +28,7 @@ Begin
     close(f);
 End;
 
-FUNCTION fnd(var x: twodim; m, n: integer): integer
+PROCEDURE fnd(var x: twodim; m, n: integer);
 Var i, j, sum: integer;
     k: byte;
     flg: boolean;
