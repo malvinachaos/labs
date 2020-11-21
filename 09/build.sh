@@ -57,5 +57,5 @@ Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
             rm -fv program *.txt
         ;;
     esac
-
+shift
 done

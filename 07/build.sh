@@ -48,5 +48,5 @@ Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
         shift
         ;;
     esac
-
+shift
 done

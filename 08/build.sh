@@ -25,7 +25,7 @@ Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
             fi
             for i in $(seq 1 50)
             do
-                echo -ne "$(($((1+ RANDOM % $2))*$((-1**$((1 + RANDOM % 4)))))) " >> $file
+                echo -ne "$(($((1+ RANDOM % $2))*$((-1**$((1 + RANDOM % 4)))))) " 1>> $file
             done
         shift
         ;;
@@ -45,5 +45,5 @@ Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
         shift
         ;;
     esac
-
+    shift
 done

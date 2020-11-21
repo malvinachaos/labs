@@ -4,14 +4,6 @@ USES sysutils, crt;
 
 TYPE one = array of integer;
 
-VAR xf, otxt: text;
-    n, t1, t2, be, en: integer;
-    a: one;
-    fexist: boolean;
-    argexist: boolean;
-    outexist: boolean;
-
-
 PROCEDURE arr_i(var f: text; var x: one; n: integer);
 Var i: integer;
 Begin 
@@ -33,23 +25,6 @@ Begin
     writeln(f, #13#10);
 End;
 
-FUNCTION search_t2(x: one; t2, n: integer): integer;
-Var i: integer;
-    flg: boolean;
-Begin
-    i:= 0;
-    flg:= true;
-
-    while (i < n) and flg do
-    begin
-        if x[i] > t2 then flg:= false
-        else i:= i + 1;
-    end;
-
-    if not flg then search_t2:= i
-    else search_t2:= -1;
-End;
-
 FUNCTION search_t1(x: one; t1, n: integer): integer;
 Var i: integer;
     flg: boolean;
@@ -65,27 +40,49 @@ Begin
     else search_t1:= -1;
 End;
 
-FUNCTION find_num(x: one; n, t1, a, b: integer): integer;
+FUNCTION search_t2(x: one; t2, n: integer): integer;
+Var i: integer;
+    flg: boolean;
+Begin
+    i:= 0;
+    flg:= true;
+
+    while (i < n) and flg do
+        if x[i] > t2 then flg:= false
+        else i:= i + 1;
+
+    if not flg then search_t2:= i
+    else search_t2:= 0;
+End;
+
+
+FUNCTION find_num(x: one; t1, a, b: integer): integer;
 Var i, j, num: integer;
 Begin
-    num:= x[a];
-    
-    for i:= a to b do
-    begin
-        if (x[i] > t1) and (num < x[i]) then
+    num:= x[b];
+    j:= b;
+
+    for i:= b downto (a+1) do
+        if (x[i] > t1) and (x[i] < num) then
         begin
             num:= x[i];
             j:= i;
         end;
-    end;
     
     find_num:= j;
 End;
 
+VAR xf, otxt: text;
+    n, t1, t2, be, en: integer;
+    a: one;
+    fexist: boolean;
+    argexist: boolean;
+    outexist: boolean;
+
 BEGIN
 	fexist:= FileExists(argv[1]);
     outexist:= FileExists(argv[2]);
-    argexist:= (argv[1] <> '') and (argv[2] <> '');
+    argexist:= paramcount = 2;
 
     if fexist and argexist then
     begin
@@ -101,6 +98,7 @@ BEGIN
             write('Введите количетво элементов массива от 1 до 50: ');
             readln(n);
         until (n >= 2) and (n <= 50);
+        n:= n - 1;
 
         write('Введите значения для t1 и t2 соответственно: ');
         readln(t1, t2);
@@ -108,17 +106,18 @@ BEGIN
         arr_i(xf, a, n);
         writeln(otxt, 'Значения массива:', #13#10);
         arr_o(otxt, a, n);
+        writeln(otxt, 't1 : ', t1, #13#10, 't2 : ', t2);
         
         be:= search_t2(a, t2, n);
         en:= search_t1(a, t1, n);
- 
-        if (be <> -1) and (en <> -1) then writeln(otxt, 
-            'Номер последнего минимального элемента: ', 
-            find_num(a, n, t1, be, en))
+
+        if en <> -1 then writeln(otxt, 'Номер последнего минимального элемента: ',
+                                 find_num(a, t1, be, en))
         else writeln(otxt, 'Увы, таких чисел не нашлось');
 
+        writeln(otxt, #13#10);
         close(otxt);
     end
-    else if (not argexist) or outexist then writeln('Использование:', #13#10, './main file_1.txt out.txt')
-    else writeln('Файла ', argv[1], ' не существует');
+    else if not argexist then writeln('Использование:', #13#10, './main file_1.txt out.txt')
+    else if not fexist then writeln('Файла ', argv[1], ' не существует');
 END.
