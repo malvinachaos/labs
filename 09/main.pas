@@ -4,11 +4,6 @@ USES sysutils;
 
 TYPE twodim = array of array of integer;
 
-VAR a: twodim;
-    matfile, otxt: text;
-    i, beg, m, n:integer;
-    aexist, fexist: boolean;
-
 PROCEDURE matrix_i(var f: text; var x: twodim; m, n: integer);
 Var i, j, c: integer;
 Begin 
@@ -17,12 +12,10 @@ Begin
     for i:= 0 to m do
     begin
         for j:= 0 to n do
-        begin
             read(f, x[i, j]);
-        end;
         
-        if i < m then
-            while not seekeoln(f) do read(f, c);
+        while (not seekeoln(f) and (i<m)) do 
+            read(f, c);
     end;
 
     close(f);
@@ -49,6 +42,11 @@ Begin
     if flg then fnd:= -1
     else fnd:= i;
 End;
+
+VAR a: twodim;
+    matfile, otxt: text;
+    i, beg, m, n:integer;
+    aexist, fexist: boolean;
 
 BEGIN
     fexist:= FileExists(argv[1]);
