@@ -21,6 +21,17 @@ Begin
     close(f);
 End;
 
+PROCEDURE matrix_o(var f: text; x: twodim; m, n: integer);
+Var i, j: integer;
+Begin 
+    for i:= 0 to m do
+    begin
+        for j:= 0 to n do
+            write(f, x[i, j], ' ');
+        writeln(f);
+    end;
+End;
+
 FUNCTION fnd(var x: twodim; beg, m, n: integer): integer;
 Var i, j, sum: integer;
     flg: boolean;
@@ -68,6 +79,9 @@ BEGIN
         beg:= 0;
 
         matrix_i(matfile, a, m, n);
+
+        writeln(otxt, 'Значения массива:');
+        matrix_o(otxt, a, m, n);
         writeln(otxt, 'Номера строк матрицы, чьи суммы меньше нуля:');
 
         beg:= fnd(a, beg, m, n);
