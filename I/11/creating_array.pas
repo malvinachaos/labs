@@ -31,7 +31,7 @@ Begin
     flg:= true;
 
     while (i < n) and flg do
-        if x[i] = v then flg:= false
+        if (x[i] = v) then flg:= false
         else i:= i + 1;
     
     if flg then index_v1:= -1
@@ -56,16 +56,16 @@ End;
 PROCEDURE re_array(var z: one; x: one; var n: integer; v1, v2: integer);
 Var i: integer;
 Begin
-    n:= v2-v1 + 1;
-    setlength(z, n+1);
+    n:= v2 - v1;
+    setlength(z, n-1);
 
-    for i:= 0 to v2 do
-        z[i]:= x[i+v1];
+    for i:= 0 to n-1 do
+        z[i]:= x[v1+i];
 End;
 
 VAR a, b: one;
     itxt, otxt: text;
-    v1, v2, i, n: integer;
+    v1, v2, in1, in2, i, n: integer;
     fexi, aexi: boolean;
 
 BEGIN
@@ -90,18 +90,18 @@ BEGIN
             readln(v1, v2);
 
             in_array(itxt, a, n);
-            v1:= index_v1(a, n, v1);
-            v2:= index_v2(a, n, v2);
+            in1:= index_v1(a, n, v1);
+            in2:= index_v2(a, n, v2);
 
-            if (v1 <> -1) and (v2 <> -1) then
+            if (in1 <> -1) and (in2 <> -1) then
             begin
-                re_array(b, a, n, v1, v2);
+                re_array(b, a, n, in1, in2);
                 writeln(otxt, 'Значения изменённого массива ', argv[i], ', размером ', n, ':');
-                ou_array(otxt, b, n);
+                ou_array(otxt, b, n-1);
             end
             else 
             begin
-                writeln(otxt, 'Числа ', v1, ', ', v2, ' не нашлись в массиве ', argv[i]);
+                writeln(otxt, 'Числа ', in1, ', ', in2, ' не нашлись в массиве ', argv[i], ':');
                 ou_array(otxt, a, n);
             end;
         end;

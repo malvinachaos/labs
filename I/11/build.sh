@@ -3,18 +3,18 @@
 # create random numbers:  echo $((1 + RANDOM % 10))
 # echo -ne
 file="a.txt"
-name=$(ls *.pas)
+name=creating_array.pas
 while [ -n "$1" ]
 do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
+Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--run] [-s --show] [--remove]
 
 -h --help \t \t output this text
--c --create N [name] \t create file with random integers(N is range, like 10, 100, 1000, etc.)
+-c --create \t \t create files with random integers
+-e --edit-tests \t open all testing files
 -b --build \t \t compile to program, named 'program'
--v --verbose \t \t compilt with additional information
 --run \t \t \t start program with default parametres
 -s --show \t \t shows file 'out.txt'
 --remove \t \t remove all .txt files and 'program'
@@ -23,28 +23,25 @@ Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
         ;;
 
        "-c"|"--create-test")
-        for i in $(seq 1 3)
+        for i in "a.txt" "b.txt" "c.txt"
         do
-            if [ -n "$3" ] 
-            then
-                file=$3
-            fi
-            for i in $(seq 1 50)
+            for j in $(seq 1 50)
             do
-                echo -ne "$((1 + RANDOM % 10)) " >> $file
+                echo -ne "$((1 + RANDOM % 100)) " >> $i
             done
-            echo >> $file
+            echo >> $i
             shift
         done
         echo -e "Файлы созданы\n\n"
         ;;
 
-        "-b"|"--build")
-            fpc $name -oprogram && rm -f *.o
+        "-e"|"--edit-tests")
+            vim -o3 a.txt b.txt c.txt
+        shift
         ;;
 
-        "-v"|"--verbose")
-            fpc -ved $name -oprogram && rm -f *.o
+        "-b"|"--build")
+            fpc $name -oprogram && rm -f *.o
         ;;
 
         "--run")
