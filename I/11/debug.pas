@@ -7,19 +7,28 @@ TYPE one = array of integer;
 PROCEDURE in_array(var f: text; x: one; n: integer);
 Var i: integer;
 Begin
+{}  textcolor(red);
     reset(f);
 
     for i:= 0 to n do
+    begin
         read(f, x[i]);
-
+        write('[', i, '] ');
+    end;
+{} writeln(#13#10, 'All data read');
     close(f);
 End;
 
 PROCEDURE ou_array(var f: text; x: one; n: integer);
 Var i: integer;
 Begin
+{}  textcolor(blue);
     for i:= 0 to n do
+    begin
         write(f, x[i], ' ');
+        write('[', i, '] ');
+    end;
+{} writeln(#13#10, 'All data written');
     writeln(f, #13#10);
 End;
 
@@ -27,13 +36,15 @@ FUNCTION index_v1(x: one; n, v: integer): integer;
 Var i: integer;
     flg: boolean;
 Begin
+{}  textcolor(cyan);
     i:= 0;
     flg:= true;
 
     while (i < n) and flg do
         if (x[i] = v) then flg:= false
         else i:= i + 1;
-    
+{}  writeln('We found it: ', i);
+
     if flg then index_v1:= -1
     else index_v1:= i;
 End;
@@ -42,13 +53,14 @@ FUNCTION index_v2(x: one; n, v: integer): integer;
 Var i: integer;
     flg: boolean;
 Begin
+{}  textcolor(cyan);
     i:= n;
     flg:= true;
 
     while (i >= 0) and flg do
         if x[i] = v then flg:= false
         else i:= i - 1;
-    
+{}  writeln('We found it: ', i);
     if flg then index_v2:= -1
     else index_v2:= i;
 End;
@@ -56,11 +68,17 @@ End;
 PROCEDURE re_array(var z: one; x: one; var n: integer; v1, v2: integer);
 Var i: integer;
 Begin
+{}  textcolor(magenta);
     n:= v2 - v1 + 1;
+{}  writeln('Arrays size: ', n);
     setlength(z, n-1);
 
     for i:= 0 to n-1 do
+    begin
         z[i]:= x[v1+i];
+{}      write(z[i], ' ');
+    end;
+    writeln();
 End;
 
 VAR a, b: one;
@@ -78,14 +96,24 @@ BEGIN
         rewrite(otxt);
         for i:= 1 to 3 do
         begin
+{}          textcolor(green);
+
             assign(itxt, argv[i]);
+
+{}          writeln('File ', argv[i], ' opened');
+
             repeat
+{}              textcolor(white);
                 write('Введите размер массива ', argv[i], ': ');
                 readln(n);
             until (n >= 2) and (n <= 100);
+
+{}          textcolor(green);
+{}          writeln('Size of array: ', n);
             setlength(a, n);
             n:= n - 1;
 
+{}          textcolor(white);
             write('Введите числа v1 и v2 соответственно: ');
             readln(v1, v2);
 
@@ -93,18 +121,28 @@ BEGIN
             in1:= index_v1(a, n, v1);
             in2:= index_v2(a, n, v2);
 
-
             if (in1 <> -1) and (in2 <> -1) and (in2 - in1 + 1 > 1) then
             begin
+{}              textcolor(green);
+{}              writeln('True');
+
                 re_array(b, a, n, in1, in2);
+{}              textcolor(white);
                 writeln(otxt, 'Значения изменённого массива ', argv[i], ', размером ', n, ':');
                 ou_array(otxt, b, n-1);
             end
             else 
             begin
+{}              textcolor(green);
+{}              writeln('False');
+
                 writeln(otxt, 'Числа ', in1, ', ', in2, ' не нашлись в массиве ', argv[i], ':');
                 ou_array(otxt, a, n);
             end;
+
+{}          textcolor(green);
+{}          writeln('D O N E', #13#10);
+{}          textcolor(white);
         end;
         close(otxt);
     end

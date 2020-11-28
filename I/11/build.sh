@@ -4,17 +4,19 @@
 # echo -ne
 file="a.txt"
 name=creating_array.pas
+debug=debug.pas
 while [ -n "$1" ]
 do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--run] [-s --show] [--remove]
+Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--debug] [--run] [-s --show] [--remove]
 
 -h --help \t \t output this text
 -c --create \t \t create files with random integers
 -e --edit-tests \t open all testing files
 -b --build \t \t compile to program, named 'program'
+--debug \t \t compiling with debug
 --run \t \t \t start program with default parametres
 -s --show \t \t shows file 'out.txt'
 --remove \t \t remove all .txt files and 'program'
@@ -40,13 +42,17 @@ Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--run] 
         shift
         ;;
 
+        "--debug")
+            fpc $debug -oprogram.exe && rm -f *.o
+        ;;
+
         "-b"|"--build")
-            fpc $name -oprogram && rm -f *.o
+            fpc $name -oprogram.exe && rm -f *.o
         ;;
 
         "--run")
             echo -e "\nЗапуск программы...\n"
-            ./program a.txt b.txt c.txt out.txt
+            ./program.exe a.txt b.txt c.txt out.txt
         ;;
         
         "-s"|"--show")
@@ -56,7 +62,7 @@ Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--run] 
         ;;
 
         "--remove")
-            rm -fv program *.txt
+            rm -fv program.exe *.txt
         ;;
     esac
 shift
