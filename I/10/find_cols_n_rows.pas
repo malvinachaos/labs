@@ -5,7 +5,7 @@ USES sysutils;
 TYPE matrix = array of array of integer;
 
 PROCEDURE in_arr(var f: text; var x: matrix; row, col: integer);
-Var i, j, c: integer;
+Var i, j: integer;
 Begin
     reset(f);
 
@@ -15,9 +15,7 @@ Begin
         begin
             read(f, x[i, j]);
         end;
-        
-        while not seekeoln(f) and (i<row) do 
-            read(f, c);
+    readln(f);
     end;
 
     close(f);
