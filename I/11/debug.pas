@@ -8,7 +8,7 @@ PROCEDURE in_array(var f: text; x: one; n: integer);
 Var i: integer;
 Begin
 {}  textcolor(blue);
-{}  writeln('[in]: ');
+{}  write('[in]: ');
     reset(f);
 
     for i:= 0 to n do
@@ -24,7 +24,7 @@ PROCEDURE ou_array(var f: text; x: one; n: integer);
 Var i: integer;
 Begin
 {}  textcolor(blue);
-{}  writeln('[ou]: ');
+{}  write('[ou]: ');
     for i:= 0 to n do
     begin
         write(f, x[i], ' ');
@@ -39,7 +39,6 @@ Var i: integer;
     flg: boolean;
 Begin
 {}  textcolor(cyan);
-{}  writeln('[v1]: ');
     i:= 0;
     flg:= true;
 
@@ -57,7 +56,6 @@ Var i: integer;
     flg: boolean;
 Begin
 {}  textcolor(cyan);
-{}  writeln('[v2]: ');
     i:= n;
     flg:= true;
 
