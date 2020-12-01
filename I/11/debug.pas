@@ -7,7 +7,8 @@ TYPE one = array of integer;
 PROCEDURE in_array(var f: text; x: one; n: integer);
 Var i: integer;
 Begin
-{}  textcolor(red);
+{}  textcolor(blue);
+{}  writeln('[in]: ');
     reset(f);
 
     for i:= 0 to n do
@@ -15,7 +16,7 @@ Begin
         read(f, x[i]);
         write('[', i, '] ');
     end;
-{} writeln(#13#10, 'All data read');
+{} writeln(#13#10, '[in]: All data read');
     close(f);
 End;
 
@@ -23,12 +24,13 @@ PROCEDURE ou_array(var f: text; x: one; n: integer);
 Var i: integer;
 Begin
 {}  textcolor(blue);
+{}  writeln('[ou]: ');
     for i:= 0 to n do
     begin
         write(f, x[i], ' ');
         write('[', i, '] ');
     end;
-{} writeln(#13#10, 'All data written');
+{} writeln(#13#10, '[ou]: All data written');
     writeln(f, #13#10);
 End;
 
@@ -37,13 +39,14 @@ Var i: integer;
     flg: boolean;
 Begin
 {}  textcolor(cyan);
+{}  writeln('[v1]: ');
     i:= 0;
     flg:= true;
 
     while (i < n) and flg do
         if (x[i] = v) then flg:= false
         else i:= i + 1;
-{}  writeln('We found it: ', i);
+{}  writeln('[v1]: We found it: ', i);
 
     if flg then index_v1:= -1
     else index_v1:= i;
@@ -54,13 +57,14 @@ Var i: integer;
     flg: boolean;
 Begin
 {}  textcolor(cyan);
+{}  writeln('[v2]: ');
     i:= n;
     flg:= true;
 
     while (i >= 0) and flg do
         if x[i] = v then flg:= false
         else i:= i - 1;
-{}  writeln('We found it: ', i);
+{}  writeln('[v2]: We found it: ', i);
     if flg then index_v2:= -1
     else index_v2:= i;
 End;
@@ -70,7 +74,7 @@ Var i: integer;
 Begin
 {}  textcolor(magenta);
     n:= v2 - v1 + 1;
-{}  writeln('Arrays size: ', n);
+{}  write('[re]: Arrays size: ', n, #13#10, '[re]: ');
     setlength(z, n-1);
 
     for i:= 0 to n-1 do
@@ -136,7 +140,7 @@ BEGIN
 {}              textcolor(green);
 {}              writeln('False');
 
-                writeln(otxt, 'Числа ', in1, ', ', in2, ' не нашлись в массиве ', argv[i], ':');
+                writeln(otxt, 'Числа не нашлись, вывод изначального массива ', argv[i], ':');
                 ou_array(otxt, a, n);
             end;
 
