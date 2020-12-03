@@ -1,22 +1,17 @@
 #! /bin/bash
 
-# create random numbers:  echo $((1 + RANDOM % 10))
-# echo -ne
-file="a.txt"
 name=creating_array.pas
-debug=debug.pas
 while [ -n "$1" ]
 do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--debug] [--run] [-s --show] [--remove]
+Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--run] [-s --show] [--remove]
 
 -h --help \t \t output this text
 -c --create \t \t create files with random integers
 -e --edit-tests \t open all testing files
 -b --build \t \t compile to program, named 'program'
---debug \t \t compiling with debug
 --run \t \t \t start program with default parametres
 -s --show \t \t shows file 'out.txt'
 --remove \t \t remove all .txt files and 'program'
@@ -40,10 +35,6 @@ Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--debug
         "-e"|"--edit-tests")
             vim -o3 a.txt b.txt c.txt
         shift
-        ;;
-
-        "--debug")
-            fpc $debug -oprogram.exe && rm -f *.o
         ;;
 
         "-b"|"--build")

@@ -23,34 +23,23 @@ Begin
     writeln(f, #13#10);
 End;
 
-FUNCTION index_v1(x: one; n, v: integer): integer;
+FUNCTION sinde(x: one; n, v: integer; var k: integer): integer;
 Var i: integer;
     flg: boolean;
 Begin
-    i:= 0;
+    i:= k;
     flg:= true;
 
     while (i < n) and flg do
-        if (x[i] = v) then flg:= false
+        if (x[i] = v) then 
+        begin
+            flg:= false;
+            k:= i;
+        end
         else i:= i + 1;
-    
-    if flg then index_v1:= -1
-    else index_v1:= i;
-End;
 
-FUNCTION index_v2(x: one; n, v: integer): integer;
-Var i: integer;
-    flg: boolean;
-Begin
-    i:= n;
-    flg:= true;
-
-    while (i >= 0) and flg do
-        if x[i] = v then flg:= false
-        else i:= i - 1;
-    
-    if flg then index_v2:= -1
-    else index_v2:= i;
+    if flg then sinde:= -1
+    else sinde:= i;
 End;
 
 PROCEDURE re_array(var z: one; x: one; var n: integer; v1, v2: integer);
@@ -65,7 +54,7 @@ End;
 
 VAR a, b: one;
     itxt, otxt: text;
-    v1, v2, in1, in2, i, n: integer;
+    v1, v2, in1, in2, i, n, k: integer;
     fexi, aexi: boolean;
 
 BEGIN
@@ -84,15 +73,16 @@ BEGIN
                 readln(n);
             until (n >= 2) and (n <= 100);
             setlength(a, n);
-            n:= n - 1;
+            n -= 1;
 
             write('Введите числа v1 и v2 соответственно: ');
             readln(v1, v2);
 
             in_array(itxt, a, n);
-            in1:= index_v1(a, n, v1);
-            in2:= index_v2(a, n, v2);
-
+            k:= 0;
+            in1:= sinde(a, n, v1, k);
+            k += 1;
+            in2:= sinde(a, n, v2, k);
 
             if (in1 <> -1) and (in2 <> -1) and (in2 - in1 + 1 > 1) then
             begin
@@ -102,7 +92,7 @@ BEGIN
             end
             else 
             begin
-                writeln(otxt, 'Числа ', in1, ', ', in2, ' не нашлись в массиве ', argv[i], ':');
+                writeln(otxt, 'Числа не нашлись, вывод изначального массива ', argv[i], ':');
                 ou_array(otxt, a, n);
             end;
         end;
