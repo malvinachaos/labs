@@ -53,6 +53,7 @@ Begin
 End;
 
 VAR a, b: one;
+    choose: array [1..3] of char = ('a', 'b', 'c');
     itxt, otxt: text;
     v1, v2, in1, in2, i, n, k: integer;
     fexi, aexi: boolean;
@@ -69,7 +70,7 @@ BEGIN
         begin
             assign(itxt, argv[i]);
             repeat
-                write('Введите размер массива ', argv[i], ': ');
+                write('Введите размер массива ', choose[i], ': ');
                 readln(n);
             until (n >= 2) and (n <= 100);
             setlength(a, n);
@@ -87,12 +88,12 @@ BEGIN
             if (in1 <> -1) and (in2 <> -1) and (in2 - in1 + 1 > 1) then
             begin
                 re_array(b, a, n, in1, in2);
-                writeln(otxt, 'Значения изменённого массива ', argv[i], ', размером ', n, ':');
+                writeln(otxt, 'Значения изменённого массива ', choose[i], ', размером ', n, ':');
                 ou_array(otxt, b, n-1);
             end
             else 
             begin
-                writeln(otxt, 'Числа не нашлись, вывод изначального массива ', argv[i], ':');
+                writeln(otxt, 'Числа не нашлись, вывод изначального массива ', choose[i], ':');
                 ou_array(otxt, a, n);
             end;
         end;

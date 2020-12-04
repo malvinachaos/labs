@@ -4,11 +4,6 @@ USES sysutils;
 
 TYPE onedim = array of integer;
 
-PROCEDURE out_choice(i: byte);
-Begin
-
-End;
-
 PROCEDURE finarr(var f: text; var x: onedim; n: byte);
 Var i: byte;
 Begin
@@ -39,9 +34,10 @@ End;
 
 VAR arr: onedim;
     c: array [1..3] of integer;
+    choose: array [1..3] of char = ('a', 'b', 'c'); {используется для вывода}
     itxt, otxt: text;
     a, b, mini, number: integer;
-    n, i: byte;
+    n, i: byte; {размер массивов и перемещение по нему}
     fexi, aexi: boolean;
 
 BEGIN
@@ -68,12 +64,7 @@ BEGIN
             assign(itxt, argv[i]);
         
             repeat
-                write('Введите размерность массива ');
-                case i of
-                    1: write('a: ');
-                    2: write('b: ');
-                    3: write('c: ');
-                end;
+                write('Введите размерность массива ', choose[i], ': ');
                 readln(n);
             until (n >= 2) and (n <= 100);
             setlength(arr, n);
@@ -81,13 +72,7 @@ BEGIN
    
             finarr(itxt, arr, n);
 
-            write(otxt, 'Значения массива ');
-            case i of
-                1: writeln(otxt, 'a:');
-                2: writeln(otxt, 'b:');
-                3: writeln(otxt, 'c:');
-            end;
-
+            write(otxt, 'Значения массива ', choose[i], ': ');
             fouarr(otxt, arr, n);
 
             c[i]:= minimum(arr, n); 
