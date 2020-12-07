@@ -25,10 +25,9 @@ End;
 
 FUNCTION sinde(x: one; n, v: integer; var k: integer): integer;
 Var i: integer;
-    flg: boolean;
+flg: boolean = true;
 Begin
     i:= k;
-    flg:= true;
 
     while (i < n) and flg do
         if (x[i] = v) then 
