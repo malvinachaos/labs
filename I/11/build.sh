@@ -44,6 +44,7 @@ Usage build.sh [-h --help] [-c --create] [-e --edit-tests] [-b --build] [--run] 
         "--run")
             echo -e "\nЗапуск программы...\n"
             ./program.exe a.txt b.txt c.txt out.txt
+            echo -e "\n...программа завершена"
         ;;
         
         "-s"|"--show")

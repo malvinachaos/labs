@@ -25,11 +25,11 @@ End;
 
 FUNCTION sinde(x: one; n, v: integer; var k: integer): integer;
 Var i: integer;
-flg: boolean = true;
+    flg: boolean = true;
 Begin
     i:= k;
 
-    while (i < n) and flg do
+    while (i <= n) and flg do
         if (x[i] = v) then 
         begin
             flg:= false;
@@ -69,7 +69,7 @@ BEGIN
         begin
             assign(itxt, argv[i]);
             repeat
-                write('Введите размер массива ', choose[i], ': ');
+                write('Введите размер массива ', choose[i], ' (от 2 до 100): ');
                 readln(n);
             until (n >= 2) and (n <= 100);
             setlength(a, n);

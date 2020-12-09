@@ -25,7 +25,11 @@ Usage build.sh [-h|--help] [-c|--create] [-e|--edit] [-b|--build] [--run] [--sho
             do
                 for j in $(seq 1 100)
                 do
-                    echo -ne "$((1 + RANDOM % 100)) " >> $i
+                    if [ $((1 + RANDOM % 3)) -eq 3 ]
+                    then
+                        echo -ne "-$((1 + RANDOM % 100)) " >> $i
+                    else echo -ne "$((1 + RANDOM % 100)) " >> $i
+                    fi
                 done
                 echo >> $i
             done
@@ -43,10 +47,11 @@ Usage build.sh [-h|--help] [-c|--create] [-e|--edit] [-b|--build] [--run] [--sho
         "--run")
             echo -ne "\n\nЗапуск программы...\n\n"
             ./three_arrays.exe a.txt b.txt c.txt out.txt
+            echo -ne "\n\n...программа завершена\n\n"
         ;;
 
         "--show")
-            echo -ne "\n\n-~~====[Содержимое файла out.txt]====~~-\n"
+            echo -ne "\n\n-~~====[Содержимое файла out.txt]====~~-\n\n"
             cat out.txt
         ;;
 

@@ -2,9 +2,8 @@
 
 ### ToDo list
 ### I
- * 10 **ready** **doc** **check**
- * 11 **ready** _doc_ _check_
- * 12 _ready_ _doc_ _check_
+ * 10 __ready__ __doc__ __check__
+ * 11 __ready__ _doc_ __check__
+ * 12 __ready__ _doc_ __check__
  * 13 _ready_ _doc_ _check_
  * 14 _ready_ _doc_ _check_
- * FI _ready_ _doc_ _check_

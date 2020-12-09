@@ -36,7 +36,7 @@ VAR arr: onedim;
     c: array [1..3] of integer;
     choose: array [1..3] of char = ('a', 'b', 'c'); {используется для вывода}
     itxt, otxt: text;
-    a, b, mini, number: integer;
+    a, b, mini: integer;
     n, i: byte; {размер массивов и перемещение по нему}
     fexi, aexi: boolean;
 
@@ -53,10 +53,11 @@ BEGIN
         readln(a, b);
         if a > b then
         begin 
-            writeln('Перестановка');
+            writeln('Перестановка a<->b');
             a += b;
             b:= a - b;
             a -= b;
+            writeln('a = ', a, #13#10, 'b = ', b);
         end;
          
         for i:= 1 to 3 do
@@ -80,30 +81,29 @@ BEGIN
         end;
 
         mini:= b+1;
-        number:= 0;
         for i:= 1 to 3 do
             if (mini > c[i]) and (c[i] >= a) and (c[i] <= b) then
-            begin 
                 mini:= c[i];
-                number:= i;
-            end;
 
-        if number = 0 then 
-             writeln(otxt, 'Ни одно найденное значение не принадлежит отрезку')
-        else 
+        if mini = b+1 then writeln(otxt, 'Ни одно найденное значение не принадлежит отрезку')
+        else
         begin
-            write(otxt, 'Минимальное значение, принадлежащее [', 
-                  a, '; ', b, ']', ' имеет массив ');
-            case number of
-                1: writeln(otxt, 'a');
-                2: writeln(otxt, 'b');
-                3: writeln(otxt, 'c');
-            end;
+            write(otxt, 'Минимальное значение, принадлежащее [', a, '; ', b, ']', ' имеют массивы:');
+            if c[1] = mini then write(otxt, ' a');
+            if c[2] = mini then write(otxt, ' b');
+            if c[3] = mini then write(otxt, ' c');
         end;
+        writeln(otxt);
         close(otxt);
     end
-    else
-    begin
-        writeln('Использовани:', #13#10, './three_arrays.exe a.txt b.txt c.txt out.txt');
-    end;
+    else if not aexi then 
+        writeln('Использование:', #13#10, './three_arrays.exe a.txt b.txt c.txt out.txt')
+        else
+        begin
+            write('Файлы ');
+            if not fileexists(argv[1]) then write(argv[1], ' ');
+            if not fileexists(argv[2]) then write(argv[2], ' ');
+            if not fileexists(argv[3]) then write(argv[3], ' ');
+            writeln('не сущуствуют');
+        end;
 END.
