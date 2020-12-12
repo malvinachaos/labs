@@ -70,11 +70,11 @@ Usage build.sh [-h|--help] [-c|--create] [-e|--edit] [--modules] [-b|--build] [-
         ;;
 
         "--remove")
-            rm -fv *.exe *.txt
+            rm -fv *.txt
         ;;
 
     "--clean")
-            rm -fv src/*.o src/*.ppu
+            rm -fv *.exe src/*.o src/*.ppu
         ;;
     esac
 shift
