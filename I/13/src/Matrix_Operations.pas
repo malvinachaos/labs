@@ -10,22 +10,22 @@ INTERFACE
 IMPLEMENTATION
 
     FUNCTION count_posirows(x: matrix; m, n: byte): byte;
-    Var i, j, sum: byte;
+    Var i, j: byte;
         cnt: byte = 0;
+        sum: integer = 0;
     Begin
 {}      textcolor(red);
-        cnt:= 0;
         for i:= 0 to m do
         begin
-            sum:= 0;
             for j:= 0 to n do
                 sum += x[i, j];
  
             if (sum > 0) then 
 {}          begin
                 cnt += 1;
-{}              write(cnt, ' ');
+{}              writeln('[', i:2, ']: ', sum);
 {}          end;
+            sum:= 0;
         end;
 
         count_posirows:= cnt;
@@ -44,7 +44,7 @@ IMPLEMENTATION
             begin
                 if x[i, j] > 0 then x[i, j] *= 2
                 else x[i, j] *= 3;
-{}              write('[', i:2, 'x', j:2, '] ');
+{}              write('[', i:2, 'x', j:2, ']');
             end;
 {}          writeln();
 {}      end;
