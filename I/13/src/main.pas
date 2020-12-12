@@ -1,6 +1,6 @@
-PROGRAM May_I_make_A_suggetion;
+PROGRAM It_is_who;
 
-USES Matrix_IO, Matrix_Operations, Types, crt;
+USES Matrix_IO, Matrix_Operations, Types;
 
 VAR row, col, i: byte;
     arr: matrix;
@@ -18,9 +18,7 @@ BEGIN
                 readln(row, col);
             until (row >= 2) and (row <= 100) and (col >= 2) and (col <= 100);
 
-{}          writeln('Установка размера матрицы [', row, 'x', col, ']:');
             setlength(arr, row, col);
-{}          writeln('Успешно');
             row -= 1;
             col -= 1;
 
@@ -30,13 +28,12 @@ BEGIN
             mat_w(fotxt, arr, row, col);
 
             writeln(fotxt, 'Количество строк матрицы ', choose[i],
-                    ' сумма элементов которых положительна, равна ', count_posirows(arr, row, col));
+                    ' сумма элементов которых положительна, равно ', count_posirows(arr, row, col));
 
             writeln(fotxt, #13#10, 'Умножаем элементы...');
             multi_nums(arr, row, col);
-            writeln(fotxt, 'Теперь количество положительных строк матрицы ', choose[i], ' равна ',
+            writeln(fotxt, 'Теперь количество положительных строк матрицы ', choose[i], ' равно ',
                     count_posirows(arr, row, col), #13#10, #13#10);
-
         end;
     end;
 END.
