@@ -37,7 +37,6 @@ Usage build.sh [-h|--help] [-c|--create] [-e|--edit] [--modules] [-b|--build] [-
                     done
                     echo >> $file
                 done
-                echo >> $i
             done
             echo "Файлы созданы"
         ;;
