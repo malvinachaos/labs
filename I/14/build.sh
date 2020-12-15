@@ -1,65 +1,79 @@
 #! /bin/bash
 
-# create random numbers:  echo $((1 + RANDOM % 10))
-# echo -ne
-file="a.txt"
-name=$(ls *.pas)
+name="main.pas"
+modules="Matrix_IO.pas Types.pas Matrix_Operations.pas"
 while [ -n "$1" ]
 do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [-h] [-n] [-c N [name]] [-b] [-v] [-r]
+Usage build.sh [-h|--help] [-c|--create] [-e|--edit] [--modules] [-b|--build] [--run] [--show] [--remove] [--clean]
 
 -h --help \t \t output this text
--c --create N [name] \t create file with random integers(N is range, like 10, 100, 1000, etc.)
--b --build \t \t compile to program, named 'program'
--v --verbose \t \t compilt with additional information
--r --remove \t \t remove all .txt files and 'program'
+-c --create \t \t create three text files with random integers
+-e --edit \t \t edit .txt files
+--modules \t \t compiling modules
+-b --build \t \t compile main program
+--remove \t \t remove all .txt files and program
+--clean \t \t cleaning all .o .ppu files in src
 "
-        shift
         ;;
 
-       "-c"|"--create-test")
-            if [ -n "$3" ] 
-            then
-                file=$3
-            fi
-            for i in $(seq 1 50)
+       "-c"|"--create")
+           echo -ne > a.txt
+           echo -ne > b.txt
+           echo -ne > c.txt
+            for file in "a.txt" "b.txt" "c.txt"
             do
-                if [ $((1 + RANDOM % 8)) -eq 5 ]
-                then
-                    for j in $(seq 1 50)
+                for i in $(seq 1 100)
+                do
+                    for j in $(seq 1 100)
                     do
-                        if [ $((1 + RANDOM % 5)) -eq 5 ]
+                        if [ $((1 + RANDOM % 3)) -eq 3 ]
                         then
-                            echo -ne "$((1+ RANDOM % $2)) " >> $file
-                        else echo -ne "$j " >> $file
+                            echo -ne "-$((1 + RANDOM % 100)) " >> $file
+                        else echo -ne "$((1 + RANDOM % 100)) " >> $file
                         fi
                     done
-                else 
-                    for j in $(seq 1 50)
-                    do 
-                        echo -ne "$j " >> $file
-                    done
-                fi
-                echo >> $file
+                    echo >> $file
+                done
             done
-        shift
+            echo "Файлы созданы"
+        ;;
+
+        "-e"|"--edit")
+            vim -o3 a.txt b.txt c.txt
+        ;;
+
+        "--modules")
+            cd src/
+            fpc $modules
+            cd ..
         ;;
 
         "-b"|"--build")
-            fpc $name -oprogram && rm -f *.o
-        shift
+            cd src/
+            fpc $name -oprogram.exe && mv program.exe ../
+            cd ../
         ;;
 
-        "-v"|"--verbose")
-            fpc -ved $name -oprogram && rm -f *.o
-        shift
+        "--run")
+            echo -ne "\n\nЗапуск программы...\n\n"
+            ./program.exe a.txt b.txt c.txt out.txt
+            echo -ne "\n\n...программа завершена\n\n"
         ;;
 
-        "-r"|"--remove")
-            rm -fv program *.txt
+        "--show")
+            echo -ne "\n\n-~~====[Содержимое файла out.txt]====~~-\n\n"
+            cat out.txt
+        ;;
+
+        "--remove")
+            rm -fv *.txt
+        ;;
+
+    "--clean")
+            rm -fv *.exe src/*.o src/*.ppu
         ;;
     esac
 shift
