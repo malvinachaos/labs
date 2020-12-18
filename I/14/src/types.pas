@@ -3,5 +3,8 @@ UNIT types;
 INTERFACE
     
     TYPE
-        func = FUNCTION(): real;
+        func = FUNCTION(x: real): double;
 
+IMPLEMENTATION
+
+END.
