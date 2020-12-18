@@ -10,6 +10,7 @@ INTERFACE
 
 IMPLEMENTATION
 
+    
     FUNCTION sign(num: real): integer;
     Begin
         if num > 0 then sign:= 1;

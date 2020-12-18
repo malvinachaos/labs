@@ -18,24 +18,26 @@ Usage build.sh [--help] [--modules] [--build] [--run] [--clean]
 
         "--modules")
             cd src/
-            fpc $modules
+            pabcnetc types.pas
+            pabcnetc methods.pas
+            pabcnetc funcs.pas
             cd ..
         ;;
 
         "--build")
             cd src/
-            fpc $name -oprogram.exe && mv program.exe ../
+            pabcnetc $name && mv main.exe ../
             cd ../
         ;;
 
         "--run")
             echo -ne "\n\nЗапуск программы...\n\n"
-            ./program.exe
+            LC_ALL=ru_RU.UTF-8 ./main.exe
             echo -ne "\n\n...программа завершена\n\n"
         ;;
 
         "--clean")
-            rm -fv *.exe src/*.o src/*.ppu
+            rm -fv *.exe src/*.pcu src/*.mdb
         ;;
     esac
 shift
