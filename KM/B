@@ -7,12 +7,14 @@ do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [--help] [--create] [--free] [--dotnet] [--run] [--clean]
+Usage build.sh [--help] [--create] [--free] [--dotnet] [--elf] [--exe] [--clean]
 
 --help \t \t output this text
 --create \t \t create 2 text files with random values
 --free \t \t compile main program with Free Pascal
 --dotnet \t \t compile program with PascalABC.Net
+--elf \t \t start linux program
+--exe \t \t start windows program
 --clean \t \t cleaning programs and other stuff
 "
         ;;
@@ -51,11 +53,23 @@ Usage build.sh [--help] [--create] [--free] [--dotnet] [--run] [--clean]
             cd ../
         ;;
 
-        "--run")
-            echo -ne "\n\nЗапуск программы...\n\n"
-            LC_ALL=ru_RU.UTF-8 ./win_km_proga.exe a.txt b.txt out.txt\
-            || ./program a.txt b.txt out.txt
-            echo -ne "\n\n...программа завершена\n\n"
+        "--elf")
+            echo -ne "\n\nLinux...\n\n"
+            ./program a.txt b.txt out.txt
+            echo -ne "\n\n..end\n\n"
+
+        ;;
+
+        "--exe")
+            echo -ne "\n\nWindows...\n\n"
+            LC_ALL=ru_RU.UTF-8 wineconsole win_km_proga.exe a.txt b.txt out.txt
+            echo -ne "\n\n...end\n\n"
+        ;;
+
+        "--show")
+            echo -ne "\n\nСодержимое файла out.txt:\n\n"
+            cat out.txt
+            echo -ne "\n\n"
         ;;
 
         "--clean")

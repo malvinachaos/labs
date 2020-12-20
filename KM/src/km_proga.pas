@@ -4,14 +4,6 @@ USES sysutils;
 
 TYPE matrix = array of array of integer;
 
-PROCEDURE mat_size(var m, n: byte; name: char);
-Begin
-    repeat
-        write('Введите размерность матрицы(кол-во строк и столбцов соотв-но) ', name, ' от 3 до 100: ');
-        readln(m, n);
-    until (n >= 3) and (n <= 100) and (m >= 3) and (m <= 100);
-End;
-
 PROCEDURE mat_i(var f: text; var x: matrix; m, n: byte);
 Var i, j: byte;
 Begin
@@ -47,7 +39,7 @@ Begin
     while (i <= m) and (j <= n) do
     begin
         if x[i, j] > max then max:= x[i, j];
-        i += 1; {и в freepascal, и в PacalABC.Net есть такой функционал}
+        i += 1;
         j += 1;
     end;
     main_diagonal:= max;
@@ -111,7 +103,10 @@ BEGIN
         begin
             assign(itxt, argv[i]);
          
-            mat_size(row, col, ch[i]);
+            repeat
+                write('Введите размерность матрицы(кол-во строк и столбцов соотв-но) ', ch[i], ' от 3 до 100: ');
+                readln(row, col);
+            until (row >= 3) and (row <= 100) and (col >= 3) and (col <= 100);
             setlength(a, row, col);
             row -= 1;
             col -= 1;

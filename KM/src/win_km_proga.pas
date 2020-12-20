@@ -2,14 +2,6 @@ PROGRAM Marina_Kalashnikova_KM_A_5a_20;
 
 TYPE matrix = array of array of integer;
 
-PROCEDURE mat_size(var m, n: byte; name: char);
-Begin
-    repeat
-        write('Введите размерность матрицы(кол-во строк и столбцов соотв-но) ', name, ' от 3 до 100: ');
-        readln(m, n);
-    until (n >= 3) and (n <= 100) and (m >= 3) and (m <= 100);
-End;
-
 PROCEDURE mat_i(var f: text; var x: matrix; m, n: byte);
 Var i, j: byte;
 Begin
@@ -101,6 +93,9 @@ BEGIN
     aexi:= paramcount = 3;
     fexi:= fileexists(paramstr(0)) and fileexists(paramstr(1));
 
+    writeln('Input something: ');
+    readln(row, col);
+
     if aexi and fexi then
     begin
         assign(otxt, paramstr(2));
@@ -109,7 +104,10 @@ BEGIN
         begin
             assign(itxt, paramstr(i));
          
-            mat_size(row, col, ch[i]);
+            repeat
+                write('Введите размерность матрицы(кол-во строк и столбцов соотв-но) ', ch[i], ' от 3 до 100: ');
+                readln(row, col);
+            until (row >= 3) and (row <= 100) and (col >= 3) and (col <= 100);
     
             setlength(a, row);
             for j:= 0 to row do
