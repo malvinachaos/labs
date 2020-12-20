@@ -5,41 +5,57 @@ INTERFACE
     USES types;
 
     FUNCTION half_divide(a, b, e: real; f: func): real;
-    {FUNCTION simple_iterations(a, b, e: real; f: func): real;}
+    FUNCTION simple_iterations(a, e: real; f: func): real;
+
+    PROCEDURE segments(var a, b, e: real);
 
 
 IMPLEMENTATION
-
     
-    FUNCTION sign(num: real): integer;
-    Begin
-        if num > 0 then sign:= 1;
-        if num = 0 then sign:= 0;
-        if num < 0 then sign:= -1;
-    End;
 
     FUNCTION half_divide(a, b, e: real; f: func): real;
     Var c, l, r, y: real;
+        i: byte = 0;
     Begin
         l:= a;
         r:= b;
 
             repeat
-                c:= (r - l) / 2 + 1; 
+                c:= (r + l) / 2; 
                 y:= f(c);
 
-                if sign(c) <> sign(l) then r:= c;
-                if sign(c) <> sign(r) then l:= c;
+                if y*f(l) <= 0 then r:= c
+                else l:= c;
 
-            until (abs(r - l) <= e) and (abs(y) <= e);{y = 0 ???}
+                i += 1;
+
+            until (i = 101) or (abs(r - l) <= (2*e)) and (abs(y) <= e);
         
         half_divide:= c;
     End;
-    {
-    FUNCTION simple_iterations(a, b, e: real; f: func): real;
+
+    FUNCTION simple_iterations(a, e: real; f: func): real;
     Var xi, y: real;
     Begin
+        xi:= a;
+        repeat
+            y:= f(xi);
+            xi:= y;
+            writeln('Weird information: ', xi)
+        until (abs(y) - xi) <= e;
 
+        simple_iterations:= y;
     End;
-    }
+
+    PROCEDURE segments(var a, b, e: real);
+    Begin
+        repeat
+            write('Введите концы отрезка [a,b]: ');
+            readln(a, b);
+        until (a < b);
+
+        write('Введите точность ε: ');
+        readln(e);
+    End;
+
 END.

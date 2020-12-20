@@ -1,4 +1,4 @@
-PROGRAM paste_name_here;
+PROGRAM paste_n_taste_your_pain;
 
 USES types, methods, funcs;
 
@@ -13,19 +13,16 @@ VAR a, b, e: real;
 
 
 BEGIN
-    repeat
-        write('Введите концы отрезка [a,b]: ');
-        readln(a, b);
-    until (a < b);
-    write('Введите точность ε: ');
-    readln(e);
+
+    segments(a, b, e);
 
     writeln('1)', #13#10, formula_1, #13#10);
-    writeln('Метод деления пополам: ', half_divide(a, b, e, f_12):8:5);
-    {writeln('Метод простых итераций: ', simple_iterations(f_12, a, b, e):8:5);}
+    writeln(#13#10, 'Результат метода деления пополам: ', half_divide(a, b, e, f_12):10:9);
+    writeln('Результат метода простых итераций: ', simple_iterations(a, e, f_12_x):8:5);
 
+    segments(a, b, e);
     writeln(#13#10, '2)', #13#10, formula_2, #13#10);
-    writeln('Метод деления пополам: ', half_divide(a, b, e, f_20):8:5);
-    {writeln('Метод простых итераций: ', simple_iterations(f_20, a, b, e):8:5);}
+    writeln(#13#10, 'Результат метода деления пополам: ', half_divide(a, b, e, f_20):10:9);
+    writeln('Результат метода простых итераций: ', simple_iterations(a, e, f_20_x):8:5);
 
 END.

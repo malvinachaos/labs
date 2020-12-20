@@ -7,12 +7,13 @@ do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [--help] [--modules] [--build] [--run] [--clean]
+Usage build.sh [--help] [--modules] [--build] [--run] [--clean] [--draw]
 
 --help \t \t output this text
 --modules \t \t compiling modules
 --build \t \t compile main program
 --clean \t \t cleaning program and all .o .ppu files in src
+--draw \t \t compile and start drawing function
 "
         ;;
 
@@ -38,6 +39,12 @@ Usage build.sh [--help] [--modules] [--build] [--run] [--clean]
 
         "--clean")
             rm -fv *.exe src/*.pcu src/*.mdb
+        ;;
+
+        "--draw")
+            cd src/
+            pabcnetc drawfunc.pas && mv drawfunc.exe ../ && ../drawfunc.exe
+            cd ../
         ;;
     esac
 shift
