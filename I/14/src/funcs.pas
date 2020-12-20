@@ -12,21 +12,13 @@ IMPLEMENTATION
 
     
     FUNCTION f_12(x: real): real;
-    Var one, two: real;
     Begin
-        one:= exp(-x/5);
-        two:= exp(ln(abs(x))/7);
-        writeln('f_12: ', one, ' ', two);
-        f_12:= one + (two * (sin(x) * sin(x)))/(1+ln(abs(x))) - x;
+        f_12:= exp(-x/5) + (exp(ln(abs(x))/7) * (sin(x) * sin(x)))/(1+ln(abs(x))) - x;
     End;
 
     FUNCTION f_12_x(x: real): real;
-    Var one, two: real;
     Begin
-        one:= exp(-x/5);
-        two:= exp(ln(abs(x))/7);
-        writeln('f_12: ', one, ' ', two);
-        f_12_x:= one + (two * (sin(x) * sin(x)))/(1+ln(abs(x)));
+        f_12_x:= exp(-x/5) + (exp(ln(abs(x))/7) * (sin(x) * sin(x)))/(1+ln(abs(x)));
     End;
     
     FUNCTION f_20(x: real): real;
