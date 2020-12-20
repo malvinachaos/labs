@@ -1,0 +1,67 @@
+#! /bin/sh
+
+name="km_proga.pas"
+
+while [ -n "$1" ]
+do
+    case $1 in
+        "-h"|"--help")
+            echo -e "building pascal program
+Usage build.sh [--help] [--create] [--free] [--dotnet] [--run] [--clean]
+
+--help \t \t output this text
+--create \t \t create 2 text files with random values
+--free \t \t compile main program with Free Pascal
+--dotnet \t \t compile program with PascalABC.Net
+--clean \t \t cleaning programs and other stuff
+"
+        ;;
+
+        "--create")
+        echo -ne > a.txt
+        echo -ne > b.txt
+        for file in "a.txt" "b.txt"
+        do
+            for i in $(seq 1 100)
+            do
+                for j in $(seq 1 100)
+                do
+                    if [ $((1 + RANDOM % 3)) -eq 3 ]
+                    then
+                        echo -ne "-$((1 + RANDOM % 100)) " >> $file
+                    else echo -ne "$((1 + RANDOM % 100)) " >> $file
+                    fi
+                done
+                echo >> $file
+            done
+        done
+        echo "Файлы созданы"
+
+        ;;
+
+        "--free")
+            cd src/
+            fpc $name -oprogram && mv program ../
+            cd ..
+        ;;
+
+        "--dotnet")
+            cd src/
+            pabcnetc win_km_proga.pas && mv win_km_proga.exe ../
+            cd ../
+        ;;
+
+        "--run")
+            echo -ne "\n\nЗапуск программы...\n\n"
+            LC_ALL=ru_RU.UTF-8 ./win_km_proga.exe a.txt b.txt out.txt\
+            || ./program a.txt b.txt out.txt
+            echo -ne "\n\n...программа завершена\n\n"
+        ;;
+
+        "--clean")
+            rm -fv *.exe program *.txt src/*.mdb src/*.o
+        ;;
+
+    esac
+shift
+done

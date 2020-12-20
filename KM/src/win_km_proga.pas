@@ -1,7 +1,5 @@
 PROGRAM Marina_Kalashnikova_KM_A_5a_20;
 
-USES sysutils;
-
 TYPE matrix = array of array of integer;
 
 PROCEDURE mat_size(var m, n: byte; name: char);
@@ -28,12 +26,14 @@ End;
 PROCEDURE mat_o(var f: text; x: matrix; m, n: byte);
 Var i, j: byte;
 Begin
+    writeln(f);
     for i:= 0 to m do
     begin
         for j:= 0 to n do
             write(f, x[i, j], ' ');
         writeln(f);
     end;
+    writeln(f);
 End;
 
 FUNCTION main_diagonal(x: matrix; m, n: byte): integer;
@@ -59,7 +59,7 @@ Begin
     while (i <= m) and flg do
     begin
         while (j <= n) and flg do
-            if x[i, j] > num then flg:= false
+            if (j <> i) and (x[i, j] > num) then flg:= false
             else j += 1;
         i += 1;
         j:= 0;
@@ -70,11 +70,11 @@ End;
 
 FUNCTION below_diagonal(x: matrix; num: integer; m, n: byte): boolean;
 Var i: byte = 0;
-    k: byte;
     j: byte = 0;
+    k: byte;
     flg: boolean = false;
 Begin
-    while (i <= m) and (j <= n) and (not flg) do
+    while (i <= (m-1)) and (j <= n) and (not flg) do
     begin
         k:= i + 1;
         while (k <= m) and (not flg) do
@@ -92,25 +92,29 @@ End;
 
 VAR itxt, otxt: text;
     a: matrix;
-    row, col, i: byte;
+    row, col, i, j: byte;
     adia, num: integer;
     ch: array[1..2] of char = ('A', 'B');
     aexi, fexi: boolean;
 
 BEGIN
     aexi:= paramcount = 3;
-    fexi:= fileexists(argv[1]) and fileexists(argv[2]);
+    fexi:= fileexists(paramstr(0)) and fileexists(paramstr(1));
 
     if aexi and fexi then
     begin
-        assign(otxt, argv[3]);
+        assign(otxt, paramstr(2));
         rewrite(otxt);
         for i:= 1 to 2 do
         begin
-            assign(itxt, argv[i]);
+            assign(itxt, paramstr(i));
          
             mat_size(row, col, ch[i]);
-            setlength(a, row, col);
+    
+            setlength(a, row);
+            for j:= 0 to row do
+                setlength(a[i], col);
+
             row -= 1;
             col -= 1;
             mat_i(itxt, a, row, col);
@@ -121,12 +125,15 @@ BEGIN
             mat_o(otxt, a, row, col);
             if is_main(a, row, col, adia) then
             begin
-                writeln('Введите число: ', num);
+                write('Введите число: ');
+                readln(num);
                 if below_diagonal(a, num, row, col) then
                     writeln(otxt, 'В этой матрице есть элемент, кратный вашему числу')
                 else writeln(otxt, 'В этой матрице нет элемента, кратного вашему числу');
             end
             else writeln(otxt, 'В этой матрице наибольший элемент не лежит на главной диагонали', #13#10);
+            
+            writeln(otxt, #13#10);
         end;
 
         close(otxt);
