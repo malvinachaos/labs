@@ -41,10 +41,9 @@ IMPLEMENTATION
         repeat
             y:= f(xi);
             xi:= y;
-            writeln('Weird information: ', xi)
         until (abs(y) - xi) <= e;
 
-        simple_iterations:= y;
+        simple_iterations:= xi;
     End;
 
     PROCEDURE segments(var a, b, e: real);
