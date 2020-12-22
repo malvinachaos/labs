@@ -1,8 +1,0 @@
-UNIT types;
-
-INTERFACE
-
-IMPLEMENTATION
-
-
-END.

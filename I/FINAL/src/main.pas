@@ -1,6 +1,6 @@
 PROGRAM last_episode;
 
-USES types;
+USES types, funcs, methods;
 
 VAR ;
 
