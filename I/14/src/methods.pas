@@ -5,7 +5,7 @@ INTERFACE
     USES types;
 
     FUNCTION half_divide(a, b, e: real; f: func): real;
-    FUNCTION simple_iterations(a, e: real; f: func): real;
+    FUNCTION simple_iterations(a, b, e: real; f: func): real;
 
     PROCEDURE segments(var a, b, e: real);
 
@@ -21,32 +21,32 @@ IMPLEMENTATION
         r:= b;
 
             repeat
-                c:= (r - abs(l)) / 2; 
+                c:= (r + l) / 2; 
                 y:= f(c);
 
-                if y*f(l) <= 0 then r:= c
-                else l:= c;
+                if sign(y) <> sign(f(l)) then r:= c
+                else if sign(y) <> sign(f(r)) then l:= c;
 
                 i += 1;
 
-            until (i = 101) or (abs(r - l) <= (2*e)) and (abs(y) <= e);
+            until (i = 101) or (abs(r - l) <= (e)) and (abs(y) <= e);
         
         half_divide:= c;
     End;
 
-    FUNCTION simple_iterations(a, e: real; f: func): real;
-    Var xi: real;
+    FUNCTION simple_iterations(a, b, e: real; f: func): real;
+    Var x0, x1: real;
         i: byte = 0;
     Begin
-        xi:= a;
+        x1:= (a+b)/2.0;
 
-        while (abs(f(xi) - xi) > e) and (i < 100) do
-        begin
-            xi:= f(xi);
+        repeat
+            x0:= x1;
+            x1:= f(x0);
             i += 1;
-        end;
+        until (abs(x0 - x1) < e) and (i = 100);
 
-        simple_iterations:= xi;
+        simple_iterations:= x1;
     End;
 
     PROCEDURE segments(var a, b, e: real);
