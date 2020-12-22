@@ -28,7 +28,7 @@ IMPLEMENTATION
     
     FUNCTION f_20_x(x: real): real;
     Begin
-        writeln(x, ': ',  exp(x), ' ', sqrt(exp(x)));
+        {writeln(x, ': ',  exp(x), ' ', sqrt(exp(x)));}
         f_20_x:= ( 1/exp(x) - sqrt(exp(x)) + 3.7)/3;
     End;
 
