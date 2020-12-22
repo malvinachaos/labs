@@ -1,0 +1,70 @@
+#! /bin/sh
+
+while [ -n "$1" ]
+do
+    case $1 in
+        "--help")
+            echo -e "ni[B|B]a [B]uilder
+Usage: ./B [--help] [--create] [--modules] [--build] [--run] [-show] [--clean]
+
+--help \t \t output this text
+--create \t \t create two text files with random values
+--modules \t \t building all modules
+--build \t \t building main program
+--run \t \t starts program
+--show \t \t shows output file
+--clean \t \t removing all txt, objects and other trash
+"
+            ;;
+
+        "--create")
+            echo -ne > a.txt
+            echo -ne > b.txt
+            for file in "a.txt" "b.txt"
+            do
+                for i in $(seq 1 100)
+                do
+                    for j in $(seq 1 100)
+                    if [ $((1 + RANDOM % 3)) -eq 3 ]
+                    then
+                        echo -ne "-$((1 + RANDOM % 100)) " >> $file
+                    else
+                        echo -ne "$((1 + RANDOM % 100)) " >> $file
+                    fi
+                    echo >> $file
+                done
+            done
+            echo -ne "\nФайлы созданы\n\n"
+            ;;
+
+        "--modules")
+            cd src
+            pabcnetc types.pas
+            pabcnetc types.pas
+            pabcnetc types.pas
+            cd ..
+            ;;
+
+        "--build")
+            cd src
+            pabcnetc main.pas && mv main.exe ../
+            cd ..
+            ;;
+
+        "--run")
+            echo -ne "\n\nХорни... Хорни...\n\n"
+            LC_ALL=ru_RU.UTF-8 ./main.exe a.txt b.txt output.txt
+            echo -ne "\n\nХорни...\n\n"
+            ;;
+
+        "--show")
+            echo -ne "\n\nСодержимое файла 'output.txt':"
+            cat output.txt
+            ;;
+
+        "--clean")
+            rm -fv *.txt main.exe src/*.mdb
+            ;;
+    esac
+shift
+done

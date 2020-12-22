@@ -7,14 +7,12 @@ do
     case $1 in
         "-h"|"--help")
             echo -e "building pascal program
-Usage build.sh [--help] [--create] [--free] [--dotnet] [--elf] [--exe] [--clean]
+Usage build.sh [--help] [--create] [--free] [--elf] [--clean]
 
 --help \t \t output this text
 --create \t \t create 2 text files with random values
 --free \t \t compile main program with Free Pascal
---dotnet \t \t compile program with PascalABC.Net
 --elf \t \t start linux program
---exe \t \t start windows program
 --clean \t \t cleaning programs and other stuff
 "
         ;;
@@ -47,23 +45,11 @@ Usage build.sh [--help] [--create] [--free] [--dotnet] [--elf] [--exe] [--clean]
             cd ..
         ;;
 
-        "--dotnet")
-            cd src/
-            pabcnetc win_km_proga.pas && mv win_km_proga.exe ../
-            cd ../
-        ;;
-
         "--elf")
             echo -ne "\n\nLinux...\n\n"
             ./program a.txt b.txt out.txt
             echo -ne "\n\n..end\n\n"
 
-        ;;
-
-        "--exe")
-            echo -ne "\n\nWindows...\n\n"
-            LC_ALL=ru_RU.UTF-8 wineconsole win_km_proga.exe a.txt b.txt out.txt
-            echo -ne "\n\n...end\n\n"
         ;;
 
         "--show")
@@ -73,7 +59,7 @@ Usage build.sh [--help] [--create] [--free] [--dotnet] [--elf] [--exe] [--clean]
         ;;
 
         "--clean")
-            rm -fv *.exe program *.txt src/*.mdb src/*.o
+            rm -fv program *.txt src/*.o
         ;;
 
     esac

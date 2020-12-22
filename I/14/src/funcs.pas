@@ -23,12 +23,13 @@ IMPLEMENTATION
     
     FUNCTION f_20(x: real): real;
     Begin
-        f_20:= (exp(-x) - exp(x/2) + 3.7)/3 - x;
+        f_20:= ( 1/exp(x) - exp(x/2) + 3.7)/3 - x;
     End;
     
     FUNCTION f_20_x(x: real): real;
     Begin
-        f_20_x:= (exp(-x) - exp(x/2) + 3.7)/3;
+        writeln(x, ': ',  exp(x), ' ', sqrt(exp(x)));
+        f_20_x:= ( 1/exp(x) - sqrt(exp(x)) + 3.7)/3;
     End;
 
 END.

@@ -15,7 +15,6 @@ VAR a, b, e: real;
 BEGIN
 
     segments(a, b, e);
-
     writeln('1)', #13#10, formula_1, #13#10);
     writeln(#13#10, 'Результат метода деления пополам: ', half_divide(a, b, e, f_12):10:9);
     writeln('Результат метода простых итераций: ', simple_iterations(a, e, f_12_x):8:5);

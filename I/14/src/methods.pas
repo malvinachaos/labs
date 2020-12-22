@@ -21,7 +21,7 @@ IMPLEMENTATION
         r:= b;
 
             repeat
-                c:= (r + l) / 2; 
+                c:= (r - abs(l)) / 2; 
                 y:= f(c);
 
                 if y*f(l) <= 0 then r:= c
@@ -35,13 +35,16 @@ IMPLEMENTATION
     End;
 
     FUNCTION simple_iterations(a, e: real; f: func): real;
-    Var xi, y: real;
+    Var xi: real;
+        i: byte = 0;
     Begin
         xi:= a;
-        repeat
-            y:= f(xi);
-            xi:= y;
-        until (abs(y) - xi) <= e;
+
+        while (abs(f(xi) - xi) > e) and (i < 100) do
+        begin
+            xi:= f(xi);
+            i += 1;
+        end;
 
         simple_iterations:= xi;
     End;
@@ -53,8 +56,10 @@ IMPLEMENTATION
             readln(a, b);
         until (a < b);
 
-        write('Введите точность ε: ');
-        readln(e);
+        repeat
+            write('Введите точность ε: ');
+            readln(e);
+        until (e > 0) and (e < 1);
     End;
 
 END.
