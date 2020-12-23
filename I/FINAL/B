@@ -25,12 +25,14 @@ Usage: ./B [--help] [--create] [--modules] [--build] [--run] [-show] [--clean]
                 for i in $(seq 1 100)
                 do
                     for j in $(seq 1 100)
-                    if [ $((1 + RANDOM % 3)) -eq 3 ]
-                    then
-                        echo -ne "-$((1 + RANDOM % 100)) " >> $file
-                    else
-                        echo -ne "$((1 + RANDOM % 100)) " >> $file
-                    fi
+                    do
+                        if [ $((1 + RANDOM % 3)) -eq 3 ]
+                        then
+                            echo -ne "-$((1 + RANDOM % 100)) " >> $file
+                        else
+                            echo -ne "$((1 + RANDOM % 100)) " >> $file
+                        fi
+                    done
                     echo >> $file
                 done
             done
@@ -40,8 +42,9 @@ Usage: ./B [--help] [--create] [--modules] [--build] [--run] [-show] [--clean]
         "--modules")
             cd src
             pabcnetc types.pas
-            pabcnetc types.pas
-            pabcnetc types.pas
+            pabcnetc funcs.pas
+            pabcnetc matrix_io.pas
+            pabcnetc methods.pas
             cd ..
             ;;
 
