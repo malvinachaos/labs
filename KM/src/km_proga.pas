@@ -2,7 +2,9 @@ PROGRAM Marina_Kalashnikova_KM_A_5a_20;
 
 USES sysutils;
 
-TYPE matrix = array of array of integer;
+CONST kv = 99;
+
+TYPE matrix = array[0..kv] of array[0..kv] of integer;
 
 PROCEDURE mat_i(var f: text; var x: matrix; m, n: byte);
 Var i, j: byte;
@@ -30,36 +32,25 @@ Begin
     writeln(f);
 End;
 
-FUNCTION main_diagonal(x: matrix; m, n: byte): integer;
-Var i: byte = 1;
-    j: byte = 1;
+FUNCTION is_main(x: matrix; m, n: byte): boolean;
+Var i, j: byte;
+    k: byte = 0;
+    l: byte = 0;
     max: integer;
 Begin
     max:= x[0, 0];
-    while (i <= m) and (j <= n) do
-    begin
-        if x[i, j] > max then max:= x[i, j];
-        i += 1;
-        j += 1;
-    end;
-    main_diagonal:= max;
-End;
+    for i:= 0 to m do
+        for j:= 0 to n do
+            if x[i, j] > max then 
+            begin
+                max:= x[i, j];
+                k:= i;
+                l:= j;
+            end;
 
-FUNCTION is_main(x: matrix; m, n: byte; num: integer): boolean;
-Var i: byte = 0;
-    j: byte = 1;
-    flg: boolean = true;
-Begin
-    while (i <= m) and flg do
-    begin
-        while (j <= n) and flg do
-            if (j <> i) and (x[i, j] > num) then flg:= false
-            else j += 1;
-        i += 1;
-        j:= 0;
-    end;
+    if k = l then is_main:= true
+    else is_main:= false;
 
-    is_main:= flg;
 End;
 
 FUNCTION below_diagonal(x: matrix; num: integer; m, n: byte): boolean;
@@ -87,7 +78,7 @@ End;
 VAR itxt, otxt: text;
     a: matrix;
     row, col, i: byte;
-    adia, num: integer;
+    num: integer;
     ch: array[1..2] of char = ('A', 'B');
     aexi, fexi: boolean;
 
@@ -102,7 +93,7 @@ BEGIN
         for i:= 1 to 2 do
         begin
             assign(itxt, argv[i]);
-         
+
             repeat
                 write('Введите размерность матрицы(кол-во строк и столбцов соотв-но) ', ch[i], ' от 3 до 100: ');
                 readln(row, col);
@@ -111,12 +102,10 @@ BEGIN
             row -= 1;
             col -= 1;
             mat_i(itxt, a, row, col);
-         
-            adia:= main_diagonal(a, row, col);
-         
+
             writeln(otxt, 'Матрица ', ch[i], ': ');
             mat_o(otxt, a, row, col);
-            if is_main(a, row, col, adia) then
+            if is_main(a, row, col) then
             begin
                 write('Введите число: ');
                 readln(num);
