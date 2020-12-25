@@ -45,6 +45,28 @@ IMPLEMENTATION
         minifunc:= xy;
     End;
 
+    FUNCTION main_wrong_dia(x: matrix; m, n: byte): boolean;
+    Var i, j: byte;
+        flg: boolean;
+    Begin
+        i:= 0;
+        j:= 0;
+        flg:= true;
+
+        while (i <= m) and (j <= n) and flg do
+        begin
+            if x[i, j] <> x[i, n-j] then flg:= false
+            else
+            begin
+                i+= 1;
+                j+= 1;
+            end;
+        end;
+        {частичный обход матрицы}
+        main_wrong_dia:= flg;
+
+    End;
+
     FUNCTION diasum(x: matrix; m, n: byte): integer;
     Var i: byte = 0;
         j: byte = 0;
