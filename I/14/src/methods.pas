@@ -4,10 +4,12 @@ INTERFACE
 
     USES types;
 
+    VAR dbg: boolean = false;
+
     FUNCTION half_divide(a, b, e: real; f: func): real;
     FUNCTION simple_iterations(a, b, e: real; f: func): real;
 
-    PROCEDURE segments(var a, b, e: real);
+    PROCEDURE segments(var a, b, e: real; var ch: byte);
 
 
 IMPLEMENTATION
@@ -29,6 +31,8 @@ IMPLEMENTATION
 
                 i += 1;
 
+                if dbg then writeln(i:3, ': ', a:8:5, ' | ', c:8:5, ' | ', b:8:5);
+
             until (i = 101) or (abs(r - l) <= (e)) and (abs(y) <= e);
         
         half_divide:= c;
@@ -44,13 +48,19 @@ IMPLEMENTATION
             x0:= x1;
             x1:= f(x0);
             i += 1;
+            if dbg then writeln(i:3, ': f(', x0:5:3, ') = ', x1);
         until (abs(x0 - x1) < e) and (i = 100);
 
         simple_iterations:= x1;
     End;
 
-    PROCEDURE segments(var a, b, e: real);
+    PROCEDURE segments(var a, b, e: real; var ch: byte);
     Begin
+        repeat
+            write(': ');
+            readln(ch);
+        until (ch = 1) or (ch = 2) or (ch = 3);
+
         repeat
             write('Введите концы отрезка [a,b]: ');
             readln(a, b);

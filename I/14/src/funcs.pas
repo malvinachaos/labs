@@ -6,6 +6,9 @@ INTERFACE
     FUNCTION f_12_x(x: real): real;
     FUNCTION f_20(x: real): real;
     FUNCTION f_20_x(x: real): real;
+    FUNCTION f_sin(x: real): real;
+    FUNCTION f_sin_x(x: real): real;
+
 
 
 IMPLEMENTATION
@@ -31,13 +34,13 @@ IMPLEMENTATION
         f_20_x:= ( 1/exp(x) - sqrt(exp(x)) + 3.7)/3;
     End;
 
-    FUNCTION sx(x: real): real;
+    FUNCTION f_sin(x: real): real;
     Begin
-        sx:= sin(x);
+        f_sin:= sin(x);
     End;
     {сделать sin(x) для метода простых итераций}
-    FUNCTION sx(x: real): real;
+    FUNCTION f_sin_x(x: real): real;
     Begin
-        sx:= sin(x);
+        f_sin_x:= sin(x) + x;
     End;
 END.
