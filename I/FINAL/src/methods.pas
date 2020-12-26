@@ -46,23 +46,16 @@ IMPLEMENTATION
     End;
 
     FUNCTION main_wrong_dia(x: matrix; m, n: byte): boolean;
-    Var i, j: byte;
+    Var i: byte;
         flg: boolean;
     Begin
         i:= 0;
-        j:= 0;
         flg:= true;
 
-        while (i <= m) and (j <= n) and flg do
-        begin
-            if x[i, j] <> x[i, n-j] then flg:= false
-            else
-            begin
-                i+= 1;
-                j+= 1;
-            end;
-        end;
-        {частичный обход матрицы}
+        while (i <= m) and flg do
+            if x[i, i] <> x[i, n-i] then flg:= false
+            else i+= 1;
+
         main_wrong_dia:= flg;
 
     End;
