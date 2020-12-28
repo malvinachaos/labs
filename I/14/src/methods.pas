@@ -15,7 +15,7 @@ INTERFACE
 IMPLEMENTATION
     
 
-    FUNCTION half_divide(a, b, e, x: real; f: func): real;
+    FUNCTION half_divide(a, b, e: real; f: func): real;
     Var c, l, r, y: real;
         i: byte = 0;
     Begin
@@ -26,12 +26,13 @@ IMPLEMENTATION
                 c:= (r + l) / 2; 
                 y:= f(c);
 
+                if dbg then writeln(i:3, ': ', l:8:5, ' | ', c:8:5, ' | ', r:8:5, ' [|] ', sign(f(l)), ' | ', sign(y), ' | ', sign(f(r)));
+
                 if sign(y) <> sign(f(l)) then r:= c
                 else if sign(y) <> sign(f(r)) then l:= c;
 
                 i += 1;
 
-                if dbg then writeln(i:3, ': ', l:8:5, ' | ', c:8:5, ' | ', r:8:5, ' [|] ', sign(f(l)), ' | ', sign(y), ' | ', sign(f(r)));
 
             until (i = 101) or (abs(r - l) <= (e)) and (abs(y) <= e);
         
