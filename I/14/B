@@ -5,7 +5,7 @@ do
     case $1 in
         "-h"|"--help")
             echo -e "ni[B]|[B]a [B]uilder
-Usage ./B [--help] [--modules] [--build] [--run] [--clean]
+Usage ./B [--help] [--modules] [--build] [--run] [--debug] [--clean]
 
 --help \t \t output this text
 --modules \t \t compiling modules
@@ -24,13 +24,19 @@ Usage ./B [--help] [--modules] [--build] [--run] [--clean]
 
         "--build")
             cd src/
-            pabcnetc main.exe && mv main.exe ../
+            pabcnetc main.pas ; mv main.exe ../
             cd ../
         ;;
 
         "--run")
             echo -ne "\n\nЗапуск программы...\n\n"
             LC_ALL=ru_RU.UTF-8 ./main.exe
+            echo -ne "\n\n...программа завершена\n\n"
+        ;;
+
+        "--debug")
+            echo -ne "\n\nЗапуск программы...\n\n"
+            LC_ALL=ru_RU.UTF-8 ./main.exe debug
             echo -ne "\n\n...программа завершена\n\n"
         ;;
 

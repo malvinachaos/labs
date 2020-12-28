@@ -10,7 +10,6 @@ INTERFACE
     FUNCTION f_sin_x(x: real): real;
 
 
-
 IMPLEMENTATION
 
     

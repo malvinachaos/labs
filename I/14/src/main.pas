@@ -2,7 +2,7 @@ PROGRAM paste_n_taste_your_pain;
 
 USES types, methods, funcs;
 
-VAR a, b, e: real;
+VAR a, b, e, x: real;
     choice: byte = 0;
     formula_1: string = '        ⁷√x * sin²x' + #13#10 + 
                         '⁵√e⁻ˣ + ──────────── - x' + #13#10 +
@@ -27,20 +27,23 @@ BEGIN
     case choice of
         1:
         begin
-    writeln(#13#10, 'Результат метода деления пополам: ', half_divide(a, b, e, f_12):10:9);
-    writeln('Результат метода простых итераций: ', simple_iterations(a, b, e, f_12_x):8:5, #13#10);
+    x:= half_divide(a, b, e, f_12);
+    writeln(#13#10, 'Результат метода деления пополам: ', x:10:9);
+    writeln('Результат метода простых итераций: ', simple_iterations(a, b, e, x, f_12_x):8:5, #13#10);
         end;
 
         2:
         begin
-    writeln(#13#10, 'Результат метода деления пополам: ', half_divide(a, b, e, f_20):10:9);
-    writeln('Результат метода простых итераций: ', simple_iterations(a, b, e, f_20_x):8:5, #13#10);
+    x:= half_divide(a, b, e, f_20);
+    writeln(#13#10, 'Результат метода деления пополам: ', x:10:9);
+    writeln('Результат метода простых итераций: ', simple_iterations(a, b, e, x, f_20_x):8:5, #13#10);
         end;
 
         3:
         begin
-    writeln(#13#10, 'Результат метода деления пополам: ', half_divide(a, b, e, f_sin):10:9);
-    writeln('Результат метода простых итераций: ', simple_iterations(a, b, e, f_sin_x):8:5, #13#10);
+    x:= half_divide(a, b, e, f_sin);
+    writeln(#13#10, 'Результат метода деления пополам: ', x:10:9);
+    writeln('Результат метода простых итераций: ', simple_iterations(a, b, e, x, f_sin_x):8:5, #13#10);
         end;
     end;
 END.

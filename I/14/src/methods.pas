@@ -7,7 +7,7 @@ INTERFACE
     VAR dbg: boolean = false;
 
     FUNCTION half_divide(a, b, e: real; f: func): real;
-    FUNCTION simple_iterations(a, b, e: real; f: func): real;
+    FUNCTION simple_iterations(a, b, e, x: real; f: func): real;
 
     PROCEDURE segments(var a, b, e: real; var ch: byte);
 
@@ -15,7 +15,7 @@ INTERFACE
 IMPLEMENTATION
     
 
-    FUNCTION half_divide(a, b, e: real; f: func): real;
+    FUNCTION half_divide(a, b, e, x: real; f: func): real;
     Var c, l, r, y: real;
         i: byte = 0;
     Begin
@@ -31,25 +31,25 @@ IMPLEMENTATION
 
                 i += 1;
 
-                if dbg then writeln(i:3, ': ', a:8:5, ' | ', c:8:5, ' | ', b:8:5);
+                if dbg then writeln(i:3, ': ', l:8:5, ' | ', c:8:5, ' | ', r:8:5, ' [|] ', sign(f(l)), ' | ', sign(y), ' | ', sign(f(r)));
 
             until (i = 101) or (abs(r - l) <= (e)) and (abs(y) <= e);
         
         half_divide:= c;
     End;
 
-    FUNCTION simple_iterations(a, b, e: real; f: func): real;
+    FUNCTION simple_iterations(a, b, e, x: real; f: func): real;
     Var x0, x1: real;
         i: byte = 0;
     Begin
-        x1:= (a+b)/2.0;
+        x0:= round(x);
 
         repeat
-            x0:= x1;
-            x1:= f(x0);
+            x1:= x0;
+            x0:= f(x1);
             i += 1;
             if dbg then writeln(i:3, ': f(', x0:5:3, ') = ', x1);
-        until (abs(x0 - x1) < e) and (i = 100);
+        until (abs(x1 - x0) < e) or (i = 100);
 
         simple_iterations:= x1;
     End;
