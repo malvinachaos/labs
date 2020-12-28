@@ -1,18 +1,18 @@
-#! /bin/sh
+#! /bin/bash
 
 while [ -n "$1" ]
 do
     case $1 in
         "--help")
             echo -e "ni[B|B]a [B]uilder
-Usage: ./B [--help] [--create] [--modules] [--build] [--run] [-show] [--clean]
+Usage: ./B [--help] [--create] [--modules] [--build] [--run] [--show] [--clean]
 
---help \t \t output this text
+--help \t \t \t output this text
 --create \t \t create two text files with random values
 --modules \t \t building all modules
 --build \t \t building main program
---run \t \t starts program
---show \t \t shows output file
+--run \t \t \t starts program
+--show \t \t \t shows output file
 --clean \t \t removing all txt, objects and other trash
 "
             ;;
@@ -61,7 +61,7 @@ Usage: ./B [--help] [--create] [--modules] [--build] [--run] [-show] [--clean]
             ;;
 
         "--show")
-            echo -ne "\n\nСодержимое файла 'output.txt':"
+            echo -ne "\n\nСодержимое файла 'output.txt':\n"
             cat output.txt
             ;;
 

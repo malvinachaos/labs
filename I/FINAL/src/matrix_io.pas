@@ -47,16 +47,16 @@ INITIALIZATION
         assign(otxt, paramstr(3));
         rewrite(otxt);
     end
-    else if not aexi then writeln('Usage:', #13#10,
-        'LC_ALL=ru_RU.UTF-8 ./main.exe a.txt b.txt out.txt')
+    else if not aexi then writeln('Использование:', #13#10,
+        './main.exe a.txt b.txt out.txt')
     else
     begin
-        write('Files ');
+        write('Файлов ');
         if not FileExists(paramstr(1)) then 
             write(paramstr(1), ' ');
         if not FileExists(paramstr(2)) then
             write(paramstr(2), ' ');
-        writeln('do not exist');
+        writeln('не существует');
     end;
 
 FINALIZATION

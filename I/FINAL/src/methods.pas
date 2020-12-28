@@ -4,8 +4,8 @@ INTERFACE
     USES types;
 
     FUNCTION negarow(x: matrix; m, n: byte): boolean;
-    FUNCTION minifunc(x: matrix; m, n: byte; f: func): coord; {вернёт сумму индексов}
-    FUNCTION diasum(x: matrix; m, n: byte): integer;
+    FUNCTION minifunc(x: matrix; m, n: byte; f: func): coord;
+    FUNCTION diasum(x: matrix; m: byte): integer;
 
 
 IMPLEMENTATION
@@ -28,7 +28,7 @@ IMPLEMENTATION
         negarow:= flg;
     End;
 
-    FUNCTION minifunc(x: matrix; m, n: byte; f: func): coord; {вернёт сумму индексов}
+    FUNCTION minifunc(x: matrix; m, n: byte; f: func): coord;
     Var i, j: byte;
         y_smol: integer;
         xy: coord = (0, 0);
@@ -45,7 +45,7 @@ IMPLEMENTATION
         minifunc:= xy;
     End;
 
-    FUNCTION main_wrong_dia(x: matrix; m, n: byte): boolean;
+    FUNCTION main_wrong_dia(x: matrix; m: byte): boolean;
     Var i: byte;
         flg: boolean;
     Begin
@@ -53,24 +53,19 @@ IMPLEMENTATION
         flg:= true;
 
         while (i <= m) and flg do
-            if x[i, i] <> x[i, n-i] then flg:= false
+            if x[i, i] <> x[i, m-i] then flg:= false
             else i+= 1;
 
         main_wrong_dia:= flg;
 
     End;
 
-    FUNCTION diasum(x: matrix; m, n: byte): integer;
-    Var i: byte = 0;
-        j: byte = 0;
+    FUNCTION diasum(x: matrix; m: byte): integer;
+    Var i: byte;
         sum: integer = 0;
     Begin
-        while (i <= m) and (j <= n) do
-        begin
-            sum+= x[i, j];
-            i+= 1;
-            j+= 1;
-        end;
+        for i:= 0 to m do
+            sum+= x[i, i];
 
         diasum:= sum;
     End;
