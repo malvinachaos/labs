@@ -1,5 +1,4 @@
-PROGRAM Marina_Kalashnikova_KM_A_5a_20;
-
+{Программа для Free Pascal версии (3.2.0 <=)}
 USES sysutils;
 
 CONST kv = 99;
@@ -26,8 +25,8 @@ Begin
     for i:= 0 to m do
     begin
         for j:= 0 to n do
-            write(f, x[i, j], ' ');
-        writeln(f);
+            write(f, x[i, j]:4, ' ');
+        writeln(f, #13#10);
     end;
     writeln(f);
 End;
@@ -54,21 +53,18 @@ Begin
 End;
 
 FUNCTION below_diagonal(x: matrix; num: integer; m, n: byte): boolean;
-Var i: byte = 0;
-    j: byte = 0;
-    k: byte;
+Var i: byte = 1;
+    j: byte;
     flg: boolean = false;
 Begin
-    while (i <= (m-1)) and (j <= n) and (not flg) do
+
+    while (i <= m) and (not flg) do
     begin
-        k:= i + 1;
-        while (k <= m) and (not flg) do
-        begin
-            if (x[k, j] mod num = 0) then flg:= true
-            else k += 1;
-        end;
-        i += 1;
-        j += 1;
+        j:= 0;
+        while (j < i) and (not flg) do
+            if (x[i, j] mod num = 0) then flg:= true
+            else j+= 1;
+        i+= 1;
     end;
 
     below_diagonal:= flg;
@@ -97,8 +93,8 @@ BEGIN
             repeat
                 write('Введите размерность матрицы(кол-во строк и столбцов соотв-но) ', ch[i], ' от 3 до 100: ');
                 readln(row, col);
-            until (row >= 3) and (row <= 100) and (col >= 3) and (col <= 100);
-            setlength(a, row, col);
+            until (row >= 2) and (row <= 100) and (col >= 2) and (col <= 100);
+            
             row -= 1;
             col -= 1;
             mat_i(itxt, a, row, col);
