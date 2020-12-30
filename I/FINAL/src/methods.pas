@@ -70,4 +70,31 @@ IMPLEMENTATION
         diasum:= sum;
     End;
 
+    FUNCTION wrong(x: matrix; m: byte): boolean;
+    Var i, j: byte;
+        flg: boolean;
+        num: integer;
+    Begin
+        flg:= false;
+        num:= 0;
+        i:= 0;
+
+        while (i <= m) and (not flg) do
+        begin
+            j:= 0;
+            while (j < m-i) and (not flg) do
+            begin
+                if x[i, j] < 0 then
+                begin
+                    max:= x[i, j];
+                    flg:= true;
+                end
+                else j+= 1;
+            end;
+            i+= 1;
+        end;
+
+        wrong:= flg;
+    End;
+
 END.
