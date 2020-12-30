@@ -1,4 +1,4 @@
-# Here is my labs to pascal
+# Here is my labs
 
 ### ToDo list
 ### I
@@ -6,5 +6,5 @@
  * 11 __ready__ _doc_ __check__
  * 12 __ready__ _doc_ __check__
  * 13 __ready__ _doc_ __check__
- * 14 __eady__ _doc_ _check_
- * FI __ready__ _doc_ _check_
+ * 14 _ready_ _doc_ _check_
+ * FI __ready__ _doc_ __check__
