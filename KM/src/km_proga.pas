@@ -5,7 +5,7 @@ CONST kv = 99;
 
 TYPE matrix = array[0..kv] of array[0..kv] of integer;
 
-PROCEDURE mat_i(var f: text; var x: matrix; m, n: byte);
+PROCEDURE mat_i(const f: text; var x: matrix; m, n: byte);
 Var i, j: byte;
 Begin
     reset(f);
@@ -18,7 +18,7 @@ Begin
     close(f)
 End;
 
-PROCEDURE mat_o(var f: text; x: matrix; m, n: byte);
+PROCEDURE mat_o(const f: text; x: matrix; m, n: byte);
 Var i, j: byte;
 Begin
     writeln(f);
