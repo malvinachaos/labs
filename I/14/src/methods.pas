@@ -7,7 +7,7 @@ INTERFACE
     VAR dbg: boolean = false;
 
     FUNCTION half_divide(a, b, e: real; f: func): real;
-    FUNCTION simple_iterations(a, b, e, x: real; f: func): real;
+    FUNCTION simple_iterations(a, b, e: real; f: func): real;
 
     PROCEDURE segments(var a, b, e: real; var ch: byte);
 
@@ -39,11 +39,11 @@ IMPLEMENTATION
         half_divide:= c;
     End;
 
-    FUNCTION simple_iterations(a, b, e, x: real; f: func): real;
+    FUNCTION simple_iterations(a, b, e: real; f: func): real;
     Var x0, x1: real;
         i: byte = 0;
     Begin
-        x0:= round(x);
+        x0:= 1; {упс, тут возникает проблема, что этот метод не зависит от границ...}
 
         repeat
             x1:= x0;
