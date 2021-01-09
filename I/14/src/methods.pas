@@ -22,19 +22,20 @@ IMPLEMENTATION
         l:= a;
         r:= b;
 
-            repeat
-                c:= (r + l) / 2; 
-                y:= f(c);
 
-                if dbg then writeln(i:3, ': ', l:8:5, ' | ', c:8:5, ' | ', r:8:5, ' [|] ', sign(f(l)), ' | ', sign(y), ' | ', sign(f(r)));
+        repeat
+            c:= (r + l) / 2; 
+            y:= f(c);
 
-                if sign(y) <> sign(f(l)) then r:= c
-                else if sign(y) <> sign(f(r)) then l:= c;
+            if dbg then writeln(i:3, ': ', l:8:5, ' | ', c:8:5, ' | ', r:8:5);
 
-                i += 1;
+            if sign(y) <> sign(f(l)) then r:= c
+            else if sign(y) <> sign(f(r)) then l:= c;
+
+            i += 1;
 
 
-            until (i = 101) or (abs(r - l) <= (e)) and (abs(y) <= e);
+        until (i = 101) or (abs(r - l) <= (e)) and (abs(y) <= e);
         
         half_divide:= c;
     End;
@@ -43,14 +44,15 @@ IMPLEMENTATION
     Var x0, x1: real;
         i: byte = 0;
     Begin
-        x0:= 1; {| I  H A V E  N O  I D E A  W H Y |}
+        {|x0:= 1;  I  H A V E  N O  I D E A  W H Y |}
+        x0:= (a + b)/2;
 
         repeat
-            x1:= x0;
-            x0:= f(x1);
+            x1:= f(x0);
+            x0:= x1;
             i += 1;
             if dbg then writeln(i:3, ': f(', x0:5:3, ') = ', x1);
-        until (abs(x1 - x0) < e) or (i = 100);
+        until (abs(x1 - x0) < e) or (a < x1) and (x1 < b) or (i = 100);
 
         simple_iterations:= x1;
     End;
