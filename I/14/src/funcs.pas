@@ -37,7 +37,7 @@ IMPLEMENTATION
     Begin
         f_sin:= sin(x);
     End;
-    {сделать sin(x) для метода простых итераций}
+
     FUNCTION f_sin_x(x: real): real;
     Begin
         f_sin_x:= sin(x) + x;

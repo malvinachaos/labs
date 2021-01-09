@@ -43,7 +43,7 @@ IMPLEMENTATION
     Var x0, x1: real;
         i: byte = 0;
     Begin
-        x0:= 1; {упс, тут возникает проблема, что этот метод не зависит от границ...}
+        x0:= 1; {| I  H A V E  N O  I D E A  W H Y |}
 
         repeat
             x1:= x0;
