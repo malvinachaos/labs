@@ -86,7 +86,7 @@ IMPLEMENTATION
             begin
                 if x[i, j] < 0 then
                 begin
-                    max:= x[i, j];
+                    num:= x[i, j];
                     flg:= true;
                 end
                 else j+= 1;
