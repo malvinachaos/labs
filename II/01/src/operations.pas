@@ -5,19 +5,19 @@ INTERFACE
     //USES bset;
     //USES cset;
 
-    PROCEDURE filread(f: text; s: Tset);
-    PROCEDURE keyread(s: Tset);
+    PROCEDURE filread(var f: text; var s: Tset);
+    PROCEDURE keyread(var s: Tset);
     PROCEDURE outfile(var f: text; s: Tset);
-    PROCEDURE unite(out s: Tset; s1: Tset);
-    PROCEDURE cross(out s: Tset; s1: Tset);
-    PROCEDURE sub(out s: Tset; s1: Tset);
+    PROCEDURE unite(var s: Tset; s1: Tset; m: byte);
+    PROCEDURE cross(var s: Tset; s1: Tset; m: byte);
+    PROCEDURE sub(var s: Tset; s1: Tset; m: byte);
 
 IMPLEMENTATION
-    PROCEDURE filread(f: text; var s: Tset);
+    PROCEDURE filread(var f: text; var s: Tset);
     var i: byte = 1;
         c: char;
     begin
-        reset(f)
+        reset(f);
         while (not eof(f)) and (i <= 52) do
         begin
             read(f, c);
@@ -30,7 +30,7 @@ IMPLEMENTATION
         close(f);
     end;
 
-    PROCEDURE keyread(s: Tset);
+    PROCEDURE keyread(var s: Tset);
     var i, n: byte;
         c: char;
     begin
@@ -51,34 +51,35 @@ IMPLEMENTATION
         end;
     end;
 
-    PROCEDURE outfile(var f: text; s: Tset; n: byte);
+    PROCEDURE outfile(var f: text; s: Tset);
     var i: byte;
     begin
-        for i:= 1 to n do
-            write(f, s[i], ' ');
+        foreach var c in s do
+            write(f, c, ' ');
         writeln(f);
     end;
 
-    PROCEDURE unite(out s: Tset; s1: Tset; m: byte);
+    PROCEDURE unite(var s: Tset; s1: Tset; m: byte);
     var i: byte;
     begin
-        for i:= 1 to m do
-            if not isin(s, s1[i]) then
-                addset(s, s1[i]);
+        foreach var c in s1 do
+            if not isin(s, c) then
+                addset(s, c);
     end;
 
-    PROCEDURE cross(out s: Tset; s1: Tset; m: byte);
+    PROCEDURE cross(var s: Tset; s1: Tset; m: byte);
     var i: byte;
     begin
-        for i:= 1 to m do
-            if not isin(s, s1[i]) then
-                delset(s, s1[i]);
+        foreach var c in s1 do
+            if not isin(s, c) then
+                delset(s, c);
     end;
 
-    PROCEDURE sub(out s: Tset; s1: Tset; m: byte);
+    PROCEDURE sub(var s: Tset; s1: Tset; m: byte);
     var i: byte;
     begin
-        for i:= 1 to m do
-            if isin(s, s1[i]) then
-                delset(s, s[i]);
+        foreach var c in s1 do
+            if isin(s, c) then
+                delset(s, c);
     end;
+END.
