@@ -1,46 +1,52 @@
 UNIT bset;
 
 INTERFACE
-    TYPE tset = array [1..52] of boolean;
+    TYPE tset = array [0..51] of boolean;
 
-    FUNCTION isin(s: tset; c: char): boolean;
+    FUNCTION isin(const s: tset; const c: char): boolean;
     PROCEDURE nullset(var s: tset);
-    PROCEDURE addset(var s: tset; c: char);
-    PROCEDURE delset(var s: tset; c: char);
-    FUNCTION symtoin(const c: char): byte;
+    PROCEDURE addset(var s: tset; const c: char);
+    PROCEDURE delset(var s: tset; const c: char);
 
 IMPLEMENTATION
-    FUNCTION symtoin(const c: char): byte;
-    var i: byte;
+    FUNCTION isin(const s: tset; const c: char): boolean;
+    var i: byte = 0;
     begin
         i:= ord(c);
         if i > ord('Z') then
-            i:= i - ord('a') + 1
+            i:= i - ord('a')
         else
-            i:= i - ord('A') + 1;
-        result:= i;
-    end;
-
-    FUNCTION isin(s: tset; c: char): boolean;
-    begin
-        result:= s[symtoin(c)];
+            i:= i - ord('A');
+        result:= s[i];
     end;
 
     PROCEDURE nullset(var s: tset);
     var i: byte;
     begin
-        for i:= 1 to 52 do
+        for i:= 0 to 51 do
             s[i]:= false;
     end;
 
     PROCEDURE addset(var s: tset; c: char);
+    var i: byte = 0;
     begin
-        s[symtoin(c)]:= true;
+        i:= ord(c);
+        if i > ord('Z') then
+            i:= i - ord('a')
+        else
+            i:= i - ord('A');
+        s[i]:= true;
     end;
 
     PROCEDURE delset(var s: tset; c: char);
+    var i: byte = 0;
     begin
-        s[symtoin(c)]:= false;
+        i:= ord(c);
+        if i > ord('Z') then
+            i:= i - ord('a')
+        else
+            i:= i - ord('A');
+        s[i]:= false;
     end;
 
 END.

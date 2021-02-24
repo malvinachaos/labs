@@ -5,7 +5,6 @@ INTERFACE
             x: array of char;
             n: byte;
         end;
-    TYPE hyperset = array of char;
 
     FUNCTION isin(s: tset; c: char): boolean;
     PROCEDURE nullset(var s:tset);
@@ -13,12 +12,6 @@ INTERFACE
     PROCEDURE delset(var s: tset; c: char);
 
 IMPLEMENTATION
-    PROCEDURE nullset(var s: tset);
-    begin
-        s.n:= 0;
-        setlength(s.x, s.n);
-    end;
-    
     FUNCTION isin(s: tset; c: char): boolean;
     var i: byte = 1;
     begin
@@ -28,15 +21,21 @@ IMPLEMENTATION
         begin
             if s.x[i] = c then
                 result:= true;
-            i+= 1;
+            i += 1;
         end;
     end;
 
+    PROCEDURE nullset(var s: tset);
+    begin
+        s.n:= 0;
+        setlength(s.x, s.n);
+    end;
+    
     PROCEDURE addset(var s: tset; c: char);
     begin
         if not isin(s, c) then
         begin
-            s.n+= 1;
+            s.n += 1;
             setlength(s.x, s.n);
             s.x[s.n-1]:= c;
         end;
@@ -50,13 +49,13 @@ IMPLEMENTATION
         begin
             while (i <= s.n) and not flg do
                 if s.x[i] = c then flg:= true
-                else i+= 1;
+                else i += 1;
             while (i < s.n) do
             begin
                 s.x[i]:= s.x[i+1];
-                i+= 1;
+                i += 1;
             end;
-            s.n-= 1;
+            s.n -= 1;
             setlength(s.x, s.n);
         end;
     end;

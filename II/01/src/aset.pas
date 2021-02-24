@@ -3,13 +3,13 @@ UNIT aset;
 INTERFACE
     TYPE tset = set of char;
 
-    FUNCTION isin(s: tset; c: char): boolean;
+    FUNCTION isin(const s: tset; const c: char): boolean;
     PROCEDURE nullset(var s: tset);
-    PROCEDURE addset(var s: tset; c: char);
-    PROCEDURE delset(var s: tset; c: char);
+    PROCEDURE addset(var s: tset; const c: char);
+    PROCEDURE delset(var s: tset; const c: char);
 
 IMPLEMENTATION
-    FUNCTION isin(s: tset; c: char): boolean;
+    FUNCTION isin(const s: tset; const c: char): boolean;
     begin
         result:= c in s;
     end;
@@ -21,12 +21,12 @@ IMPLEMENTATION
 
     PROCEDURE addset(var s: tset; c: char);
     begin
-        s+= [c];
+        s += [c];
     end;
 
     PROCEDURE delset(var s: tset; c: char);
     begin
-        s-= [c];
+        s -= [c];
     end;
 
 END.
