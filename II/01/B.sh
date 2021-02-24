@@ -16,7 +16,7 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
 -io \t \t building io.pas\n\
 --modules \t \t building modules\n\
 --build [name] \t \t build main program\n\
---all [name] \t \t full project building\n\
+--all \t \t full project building\n\
 --clean \t \t delete all files\n\
 "
         ;;
@@ -39,13 +39,6 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
             cd ../
         ;;
 
-        "--modules")
-            cd src/
-            pabcnetc operations.pas 
-            pabcnetc io.pas
-            cd ../
-        ;;
-
         "-operations")
             cd src/
             pabcnetc operations.pas
@@ -58,6 +51,13 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
             cd ../
         ;;
 
+        "--modules")
+            cd src/
+            pabcnetc operations.pas 
+            pabcnetc io.pas
+            cd ../
+        ;;
+
         "--build")
             cd src/
             pabcnetc main.pas && mv main.exe ../files/$2
@@ -66,10 +66,18 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
 
         "--all")
             cd src/
-            pabcnetc operations.pas 
+            pabcnetc aset.pas
+            pabcnetc bset.pas
+            pabcnetc cset.pas
+
+            pabcnetc operations.pas
             pabcnetc io.pas
-            pabcnetc main.pas && mv main.exe ../files/$2
-            cd ../
+
+            pabcnetc main.pas && mv main.exe ../files/out_of_set.exe
+            vim -o3 src/main.pas src/operations.pas src/io.pas
+            pabcnetc main.pas && mv main.exe ../files/out_of_boolean.exe
+            vim -o3 src/main.pas src/operations.pas src/io.pas
+            pabcnetc main.pas && mv main.exe ../files/out_of_char.exe
         ;;
 
         "--clean")
