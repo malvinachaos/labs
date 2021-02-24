@@ -73,7 +73,7 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
         ;;
 
         "--clean")
-            rm -rfv src/*.pcu src/main.exe.mdb files/*.exe files/out.txt
+            rm -rfv src/*.pcu src/main.exe.mdb files/*.exe files/out.txt files/out_of_earth.log
         ;;
 
     esac
