@@ -12,8 +12,9 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
 -a \n\
 -b \n\
 -c \n\
+-operations \t \t building operations.pas\n\
+-io \t \t building io.pas\n\
 --modules \t \t building modules\n\
---operations \t \t building operations.pas\n\
 --build [name] \t \t build main program\n\
 --all [name] \t \t full project building\n\
 --clean \t \t delete all files\n\
@@ -45,9 +46,15 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
             cd ../
         ;;
 
-        "--operations")
+        "-operations")
             cd src/
             pabcnetc operations.pas
+            cd ../
+        ;;
+
+        "-io")
+            cd src/
+            pabcnetc io.pas
             cd ../
         ;;
 
