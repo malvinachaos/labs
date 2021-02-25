@@ -66,14 +66,14 @@ Usage: ./B --help -a -b -c --modules --build [name] --all [name] --full --clean\
 
             pabcnetc operations.pas && pabcnetc main.pas \
                 && mv main.exe ../files/out_of_set.exe
-            vim -o3 src/main.pas src/operations.pas src/io.pas
+            vim -O2 main.pas operations.pas
 
             pabcnetc operations.pas && pabcnetc main.pas \
-                && mv main.exe ../files/out_of_set.exe
-            vim -o3 src/main.pas src/operations.pas src/io.pas
+                && mv main.exe ../files/out_of_boolean.exe
+            vim -O2 main.pas operations.pas
 
             pabcnetc operations.pas && pabcnetc main.pas \
-                && mv main.exe ../files/out_of_set.exe
+                && mv main.exe ../files/out_of_char.exe
         ;;
 
         "--clean")
