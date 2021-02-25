@@ -7,16 +7,15 @@ do
         "--help")
             echo -ne "\
 ni[B][B]a builder \n\
-Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --clean\n\
+Usage: ./B --help -a -b -c --modules --build [name] --all [name] --full [name] --clean\n\
 --help \t \t print this text\n\
 -a \n\
 -b \n\
 -c \n\
--operations \t \t building operations.pas\n\
--io \t \t building io.pas\n\
 --modules \t \t building modules\n\
 --build [name] \t \t build main program\n\
---all \t \t full project building\n\
+--all [name] \t \t build operations and main \n\
+--full [name] \t \t build full project
 --clean \t \t delete all files\n\
 "
         ;;
@@ -39,18 +38,6 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
             cd ../
         ;;
 
-        "-operations")
-            cd src/
-            pabcnetc operations.pas
-            cd ../
-        ;;
-
-        "-io")
-            cd src/
-            pabcnetc io.pas
-            cd ../
-        ;;
-
         "--modules")
             cd src/
             pabcnetc operations.pas 
@@ -65,23 +52,32 @@ Usage: ./B --help -a -b -c --modules --operations --build [name] --all [name] --
         ;;
 
         "--all")
+            cd src
+            pabcnetc operations.pas && pabcnetc main.pas &&\
+            mv main.exe ../files/$2
+        ;;
+
+        "--full")
             cd src/
             pabcnetc aset.pas
             pabcnetc bset.pas
             pabcnetc cset.pas
-
-            pabcnetc operations.pas
             pabcnetc io.pas
 
-            pabcnetc main.pas && mv main.exe ../files/out_of_set.exe
+            pabcnetc operations.pas && pabcnetc main.pas \
+                && mv main.exe ../files/out_of_set.exe
             vim -o3 src/main.pas src/operations.pas src/io.pas
-            pabcnetc main.pas && mv main.exe ../files/out_of_boolean.exe
+
+            pabcnetc operations.pas && pabcnetc main.pas \
+                && mv main.exe ../files/out_of_set.exe
             vim -o3 src/main.pas src/operations.pas src/io.pas
-            pabcnetc main.pas && mv main.exe ../files/out_of_char.exe
+
+            pabcnetc operations.pas && pabcnetc main.pas \
+                && mv main.exe ../files/out_of_set.exe
         ;;
 
         "--clean")
-            rm -rfv src/*.pcu src/main.exe.mdb files/*.exe files/out.txt files/out_of_earth.log
+            rm -rfv src/*.pcu src/main.exe.mdb files/*.exe files/out.txt files/Out_Of_Earth.log
         ;;
 
     esac
