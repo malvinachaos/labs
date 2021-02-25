@@ -13,11 +13,11 @@ INTERFACE
 
 IMPLEMENTATION
     FUNCTION isin(s: tset; c: char): boolean;
-    var i: byte = 1;
+    var i: byte = 0;
     begin
         result:= false;
         
-        while (i <= s.n) and (not result) do
+        while (i < s.n) and (not result) do
         begin
             if s.x[i] = c then
                 result:= true;
@@ -47,10 +47,10 @@ IMPLEMENTATION
     begin
         if isin(s, c) then
         begin
-            while (i <= s.n) and not flg do
+            while (i < s.n) and not flg do
                 if s.x[i] = c then flg:= true
                 else i += 1;
-            while (i < s.n) do
+            while (i < s.n - 1) do
             begin
                 s.x[i]:= s.x[i+1];
                 i += 1;

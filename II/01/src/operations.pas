@@ -2,125 +2,140 @@ UNIT operations;
 
 INTERFACE
     USES aset;
-    //USES bset;
-    //USES cset;
 
-    FUNCTION intosym(const n: byte): char;
+    VAR log: text;
+
     PROCEDURE filread(var f: text; var s: tset);
     PROCEDURE keyread(var s: tset);
     PROCEDURE outfile(var f: text; s: tset);
-    PROCEDURE unite(const s, s1: tset; var s2: tset);
-    PROCEDURE cross(const s, s1: tset; var s2: tset);
+    PROCEDURE unite(var s: tset; const s1: tset);
+    PROCEDURE cross(var s: tset; const s1: tset);
     PROCEDURE sub(var s: tset; const s1: tset);
 
 IMPLEMENTATION
 
-{   FUNCTION nobool(const s: tset): boolean;
-    var flg: boolean = true;
-    begin
-        foreach var c in s do
-            if (ord(c) = 0) or (ord(c) = 1) then
-                flg:= false;
-        result:= flg;
-    end;
-}
     PROCEDURE filread(var f: text; var s: tset);
-    var i: byte = 1;
+    var i: byte = 0;
         c: char;
     begin
+        nullset(s);
         reset(f);
-        while (not eof(f)) and (i <= 52) do
+
+        WRITE(log, '[FILREAD]: ( ');
+        while (not eoln(f)) and (i <= 102) do
         begin
             read(f, c);
-            addset(s, c);
-            i+= 1;
+            if (c <> ' ') then
+                addset(s, c);
+            i += 1;
+            WRITE(log, c);
         end;
+        WRITELN(log, ')');
         close(f);
+        WRITELN(log, '[FILREAD]: File closed');
     end;
 
     PROCEDURE keyread(var s: tset);
     var i, n: byte;
         c: char;
     begin
+        nullset(s);
         repeat
             write('Введите кол-во символов(не больше 52): ');
             readln(n);
-        until (n >= 1) and (n <= 52);
+        until (n > 0) and (n <= 52);
+        WRITELN(log, '[KEYREAD]: Count elements = ', n);
 
-        while i <= n do
+        while i < n do
         begin
-            write('set[', i:2, ']: ');
-            readln(c);
+            write('[', i:2, ']: ');
+            repeat
+                readln(c);
+            until ((ord('A') <= ord(c)) and (ord(c) <= ord('Z'))) or
+                  ((ord('a') <= ord(c)) and (ord(c) <= ord('z')));
             addset(s, c);
-            i+= 1;
+            i += 1;
+            WRITELN(log, '[KEYREAD]: [', i:2, '] = ', c);
         end;
     end;
 
-    PROCEDURE outfile(var f: text; const hs: hyperset);
-    var i: byte;
+    PROCEDURE outfile(var f: text; const s: tset);
+    var ch: char;
     begin
-        for i:= 1 to 52 do
-            if s[i] then
-                write(f, intosym(i), ' ');
-        writeln(f);
+        WRITE(log, '[OUTFILE]: ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s, ch) then
+            begin
+                write(f, ch, ' ');
+                WRITE(log, ch, ' ');
+            end;
+        for ch:= 'a' to 'z' do
+            if isin(s, ch) then
+            begin
+                write(f, ch, ' ');
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
     end;
 
-    PROCEDURE unite(const s, s1: tset; var s2: tset);
-    var i: byte;
-    begin            
-{       if nobool(s) then
-        begin
-            foreach var c in s do
-                addset(s2, c);
+    PROCEDURE unite(var s: tset; const s1: tset);
+    var ch: char;
+    begin
+        WRITE(log, '[UNITE]: Added characters ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s1, ch) and not isin(s, ch) then
+            begin
+                addset(s, ch);
+                WRITE(log, ch, ' ');
+            end;
 
-            foreach var c in s1 do
-                if not isin(s2, c) then
-                    addset(s2, c);
-        end
-        else}
-        for i:= 1 to 52 do
-            if s[i] and not isin(s2, intosym[i]) then
-                addset(s2, intosym[i]);
+        for ch:= 'a' to 'z' do
+            if isin(s1, ch) and not isin(s, ch) then
+            begin
+                addset(s, ch);
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
     end;
 
-    PROCEDURE cross(const s, s1: tset; var s2: tset);
-    var i: byte;
+    PROCEDURE cross(var s: tset; const s1: tset);
+    var ch: char;
     begin
-        if nobool then
-        begin
-            foreach var c in s1 do
-                if not isin(s, c) then
-                    addset(s2, c);
-    
-            foreach var c in s do
-                if not isin(s1, c) and not isin(s2, c) then
-                    addset(s2, c);
-        end
-        else
-        begin
-            for i:= 1 to 52 do
-                if s[i] and isin(s1, intosym[i]) then
-                    addset(s2, intosym[i]);
-            for i:= 1 to 52 do
-                if s1[i] and isin(s, intosym[i]) and (not isin(s2, intosym[i])) then
-                    addset(s2, intosym[i]);
-        end;
+        WRITE(log, '[CROSS]: Removed characters ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s, ch) and not isin(s1, ch) then
+            begin
+                delset(s, ch);
+                WRITE(log, ch, ' ');
+            end;
+
+        for ch:= 'a' to 'z' do
+            if isin(s, ch) and not isin(s1, ch) then
+            begin
+                delset(s, ch);
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
     end;
 
     PROCEDURE sub(var s: tset; const s1: tset);
-    var i: byte;
+    var ch: char;
     begin
-        if nobool(s) then
-        begin
-            foreach var c in s1 do
-                if isin(s, c) then
-                    delset(s, c);
-        end
-        else
-        begin
-            for i:= 1 to 52 do
-                if s1[i] and isin(s, intosym[i]) then
-                    delset(s, intosym[i]);
-        end;
+        WRITE(log, '[SUB]: Removed characters ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s, ch) and isin(s1, ch) then
+            begin
+                delset(s, ch);
+                WRITE(log, ch, ' ');
+            end;
+
+        for ch:= 'a' to 'z' do
+            if isin(s, ch) and isin(s1, ch) then
+            begin
+                delset(s, ch);
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
     end;
+
 END.

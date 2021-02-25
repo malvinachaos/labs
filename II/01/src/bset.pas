@@ -10,13 +10,13 @@ INTERFACE
 
 IMPLEMENTATION
     FUNCTION isin(const s: tset; const c: char): boolean;
-    var i: byte = 0;
+    var i: byte;
     begin
         i:= ord(c);
-        if i > ord('Z') then
-            i:= i - ord('a')
+        if i > ord('Z') + 1 then
+            i -= ord('A') + 6
         else
-            i:= i - ord('A');
+            i -= ord('A');
         result:= s[i];
     end;
 
@@ -28,24 +28,24 @@ IMPLEMENTATION
     end;
 
     PROCEDURE addset(var s: tset; c: char);
-    var i: byte = 0;
+    var i: byte;
     begin
         i:= ord(c);
-        if i > ord('Z') then
-            i:= i - ord('a')
+        if i > ord('Z') + 1 then
+            i -= ord('A') + 6
         else
-            i:= i - ord('A');
+            i -= ord('A');
         s[i]:= true;
     end;
 
     PROCEDURE delset(var s: tset; c: char);
-    var i: byte = 0;
+    var i: byte;
     begin
         i:= ord(c);
-        if i > ord('Z') then
-            i:= i - ord('a')
+        if i > ord('Z') + 1 then
+            i -= ord('A') + 6
         else
-            i:= i - ord('A');
+            i -= ord('A');
         s[i]:= false;
     end;
 
