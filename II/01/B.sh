@@ -7,7 +7,7 @@ do
         "--help")
             echo -ne "\
 ni[B][B]a builder \n\
-Usage: ./B --help -a -b -c --modules --build [name] --all [name] --full [name] --clean\n\
+Usage: ./B --help -a -b -c --modules --build [name] --all [name] --full --clean\n\
 --help \t \t print this text\n\
 -a \n\
 -b \n\
@@ -15,7 +15,7 @@ Usage: ./B --help -a -b -c --modules --build [name] --all [name] --full [name] -
 --modules \t \t building modules\n\
 --build [name] \t \t build main program\n\
 --all [name] \t \t build operations and main \n\
---full [name] \t \t build full project
+--full \t \t build full project
 --clean \t \t delete all files\n\
 "
         ;;
@@ -77,7 +77,7 @@ Usage: ./B --help -a -b -c --modules --build [name] --all [name] --full [name] -
         ;;
 
         "--clean")
-            rm -rfv src/*.pcu src/main.exe.mdb files/*.exe files/out.txt files/Out_Of_Earth.log
+            rm -rfv src/*.pcu src/main.exe.mdb files/*.exe files/Out_Of_Earth.log
         ;;
 
     esac
