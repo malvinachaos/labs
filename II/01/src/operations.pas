@@ -5,23 +5,23 @@ INTERFACE
 
     VAR log: text;
 
-    PROCEDURE filread(var f: text; var s: tset);
-    PROCEDURE keyread(var s: tset);
-    PROCEDURE outfile(var f: text; s: tset);
+    PROCEDURE setread(var s: tset; var f: text);
+    PROCEDURE setread(var s: tset);
+    PROCEDURE setwrite(const s: tset);
     PROCEDURE unite(var s: tset; const s1: tset);
     PROCEDURE cross(var s: tset; const s1: tset);
     PROCEDURE sub(var s: tset; const s1: tset);
 
 IMPLEMENTATION
 
-    PROCEDURE filread(var f: text; var s: tset);
+    PROCEDURE setread(var s: tset; var f: text);
     var i: byte = 0;
         c: char;
     begin
         nullset(s);
         reset(f);
 
-        WRITE(log, '[FILREAD]: ( ');
+        WRITE(log, '[SETREAD]: ( ');
         while (not eoln(f)) and (i <= 102) do
         begin
             read(f, c);
@@ -32,10 +32,10 @@ IMPLEMENTATION
         end;
         WRITELN(log, ')');
         close(f);
-        WRITELN(log, '[FILREAD]: File closed');
+        WRITELN(log, '[SETREAD]: File closed');
     end;
 
-    PROCEDURE keyread(var s: tset);
+    PROCEDURE setread(var s: tset);
     var i, n: byte;
         c: char;
     begin
@@ -44,7 +44,7 @@ IMPLEMENTATION
             write('Введите кол-во символов(не больше 52): ');
             readln(n);
         until (n > 0) and (n <= 52);
-        WRITELN(log, '[KEYREAD]: Count elements = ', n);
+        WRITELN(log, '[SETREAD]: Count elements = ', n);
 
         while i < n do
         begin
@@ -55,28 +55,25 @@ IMPLEMENTATION
                   ((ord('a') <= ord(c)) and (ord(c) <= ord('z')));
             addset(s, c);
             i += 1;
-            WRITELN(log, '[KEYREAD]: [', i:2, '] = ', c);
+            WRITELN(log, '[SETREAD]: [', i:2, '] = ', c);
         end;
     end;
 
-    PROCEDURE outfile(var f: text; const s: tset);
+    PROCEDURE setwrite(const s: tset);
     var ch: char;
     begin
-        WRITE(log, '[OUTFILE]: ( ');
+        WRITE(log, '[SETWRITE]: ( ');
         for ch:= 'A' to 'Z' do
             if isin(s, ch) then
-            begin
-                write(f, ch, ' ');
                 WRITE(log, ch, ' ');
-            end;
+
         for ch:= 'a' to 'z' do
             if isin(s, ch) then
-            begin
-                write(f, ch, ' ');
                 WRITE(log, ch, ' ');
-            end;
+
         WRITELN(log, ')');
     end;
+
 
     PROCEDURE unite(var s: tset; const s1: tset);
     var ch: char;
