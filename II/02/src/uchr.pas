@@ -27,7 +27,7 @@ IMPLEMENTATION
     end;
 
     PROCEDURE stread(var s: ustr);
-    var c: char = '';
+    var c: char = '0';
     begin
         WRITELN(log, '[STREAD]: Reading from keyboard');
         while c <> #13#10 do
@@ -43,7 +43,7 @@ IMPLEMENTATION
     end;
 
     PROCEDURE stread(var s: ustr; var f: text);
-    var c: char = '';
+    var c: char = '0';
     begin
         WRITE(log, '[STREAD]: Reading from file', #13#10,
               '[STREAD]: ');
@@ -62,7 +62,7 @@ IMPLEMENTATION
     var i: byte = 0;
     begin
         WRITE(log, '[STRIDE]: Writing to console', #13#10,
-                '[STRIDE]: ')
+                '[STRIDE]: ');
         for i:= 0 to s.n-1 do
         begin
             write(s.x[i]);
@@ -76,7 +76,7 @@ IMPLEMENTATION
     var i: byte = 0;
     begin
         WRITE(log, '[STRIDE]: Writing to file', #13#10,
-                '[STRIDE]: ')
+                '[STRIDE]: ');
         for i:= 0 to s.n-1 do
         begin
             write(f, s.x[i]);
@@ -136,7 +136,7 @@ IMPLEMENTATION
             end;
         end;
 
-        if flg of (result >= s.n-1) then
+        if flg or (result >= s.n-1) then
         begin
             result:= 0;
             WRITELN(log, '[FIND]: There is no understring in string');
