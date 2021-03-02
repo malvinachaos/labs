@@ -1,6 +1,6 @@
 PROGRAM Out_Of_Earth;
 
-USES io, aset, operations;
+USES io, cset, operations;
 
 VAR run: boolean = true;
     A, B, C: tset;
@@ -37,15 +37,15 @@ begin
         begin
             assign(txt, paramstr(1));
             setread(A, txt);
-            WRITELN(log, #13#10, '[MAIN]: A is read');
+            WRITELN(log, '[MAIN]: A is read', #13#10);
         
             assign(txt, paramstr(2));
             setread(B, txt);
-            WRITELN(log, #13#10, '[MAIN]: B is read');
+            WRITELN(log, '[MAIN]: B is read', #13#10);
         
             assign(txt, paramstr(3));
             setread(C, txt);
-            WRITELN(log, #13#10, '[MAIN]: C is read');
+            WRITELN(log, '[MAIN]: C is read', #13#10);
         end
         else if not argist then
         begin

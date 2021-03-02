@@ -1,7 +1,7 @@
 UNIT operations;
 
 INTERFACE
-    USES aset;
+    USES cset;
 
     VAR log: text;
 
