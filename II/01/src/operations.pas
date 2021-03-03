@@ -1,20 +1,18 @@
 UNIT operations;
 
 INTERFACE
-    USES cset;
+    USES aset;
 
-    VAR log: text;
-
-    PROCEDURE setread(var s: tset; var f: text);
-    PROCEDURE setread(var s: tset);
-    PROCEDURE setwrite(const s: tset);
-    PROCEDURE unite(var s: tset; const s1: tset);
-    PROCEDURE cross(var s: tset; const s1: tset);
-    PROCEDURE sub(var s: tset; const s1: tset);
+    PROCEDURE setread(var log: text; var s: tset; var f: text);
+    PROCEDURE setread(var log: text; var s: tset);
+    PROCEDURE setwrite(var log: text; const s: tset);
+    PROCEDURE unite(var log: text; const s, s1: tset; var s2: tset);
+    PROCEDURE cross(var log: text; const s, s1: tset; var s2: tset);
+    PROCEDURE sub(var log: text; const s, s1: tset; var s2: tset);
 
 IMPLEMENTATION
 
-    PROCEDURE setread(var s: tset; var f: text);
+    PROCEDURE setread(var log: text; var s: tset; var f: text);
     var i: byte = 0;
         c: char;
     begin
@@ -35,7 +33,7 @@ IMPLEMENTATION
         WRITELN(log, '[SETREAD]: File closed');
     end;
 
-    PROCEDURE setread(var s: tset);
+    PROCEDURE setread(var log: text; var s: tset);
     var i, n: byte;
         c: char;
     begin
@@ -59,7 +57,7 @@ IMPLEMENTATION
         end;
     end;
 
-    PROCEDURE setwrite(const s: tset);
+    PROCEDURE setwrite(var log: text; const s: tset);
     var ch: char;
     begin
         WRITE(log, '[SETWRITE]: ( ');
@@ -75,61 +73,109 @@ IMPLEMENTATION
     end;
 
 
-    PROCEDURE unite(var s: tset; const s1: tset);
+    PROCEDURE unite(var log: text; const s, s1: tset; var s2: tset);
     var ch: char;
     begin
+        WRITE(log, '[UNITE]: Copying to output tset: ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s, ch) then
+            begin
+                addset(s2, ch);
+                WRITE(log, ch, ' ');
+            end;
+
+        for ch:= 'a' to 'z' do
+            if isin(s, ch) then
+            begin
+                addset(s2, ch);
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
+
         WRITE(log, '[UNITE]: Added characters ( ');
         for ch:= 'A' to 'Z' do
             if isin(s1, ch) and not isin(s, ch) then
             begin
-                addset(s, ch);
+                addset(s2, ch);
                 WRITE(log, ch, ' ');
             end;
 
         for ch:= 'a' to 'z' do
             if isin(s1, ch) and not isin(s, ch) then
             begin
-                addset(s, ch);
+                addset(s2, ch);
                 WRITE(log, ch, ' ');
             end;
         WRITELN(log, ')');
     end;
 
-    PROCEDURE cross(var s: tset; const s1: tset);
+    PROCEDURE cross(var log: text; const s, s1: tset; var s2: tset);
     var ch: char;
     begin
+        WRITE(log, '[CROSS]: Copying to output tset: ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s, ch) then
+            begin
+                addset(s2, ch);
+                WRITE(log, ch, ' ');
+            end;
+
+        for ch:= 'a' to 'z' do
+            if isin(s, ch) then
+            begin
+                addset(s2, ch);
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
+
         WRITE(log, '[CROSS]: Removed characters ( ');
         for ch:= 'A' to 'Z' do
             if isin(s, ch) and not isin(s1, ch) then
             begin
-                delset(s, ch);
+                delset(s2, ch);
                 WRITE(log, ch, ' ');
             end;
 
         for ch:= 'a' to 'z' do
             if isin(s, ch) and not isin(s1, ch) then
             begin
-                delset(s, ch);
+                delset(s2, ch);
                 WRITE(log, ch, ' ');
             end;
         WRITELN(log, ')');
     end;
 
-    PROCEDURE sub(var s: tset; const s1: tset);
+    PROCEDURE sub(var log: text; const s, s1: tset; var s2: tset);
     var ch: char;
     begin
+        WRITE(log, '[SUB]: Copying to output tset: ( ');
+        for ch:= 'A' to 'Z' do
+            if isin(s, ch) then
+            begin
+                addset(s2, ch);
+                WRITE(log, ch, ' ');
+            end;
+
+        for ch:= 'a' to 'z' do
+            if isin(s, ch) then
+            begin
+                addset(s2, ch);
+                WRITE(log, ch, ' ');
+            end;
+        WRITELN(log, ')');
+
         WRITE(log, '[SUB]: Removed characters ( ');
         for ch:= 'A' to 'Z' do
             if isin(s, ch) and isin(s1, ch) then
             begin
-                delset(s, ch);
+                delset(s2, ch);
                 WRITE(log, ch, ' ');
             end;
 
         for ch:= 'a' to 'z' do
             if isin(s, ch) and isin(s1, ch) then
             begin
-                delset(s, ch);
+                delset(s2, ch);
                 WRITE(log, ch, ' ');
             end;
         WRITELN(log, ')');

@@ -1,9 +1,10 @@
 PROGRAM Out_Of_Earth;
 
-USES io, cset, operations;
+USES io, aset, operations;
 
 VAR run: boolean = true;
-    A, B, C: tset;
+    A, B, C, I, II, III: tset;
+    log: text;
 
 BEGIN
 
@@ -36,15 +37,15 @@ begin
         if filist and argist then
         begin
             assign(txt, paramstr(1));
-            setread(A, txt);
+            setread(log, A, txt);
             WRITELN(log, '[MAIN]: A is read', #13#10);
         
             assign(txt, paramstr(2));
-            setread(B, txt);
+            setread(log, B, txt);
             WRITELN(log, '[MAIN]: B is read', #13#10);
         
             assign(txt, paramstr(3));
-            setread(C, txt);
+            setread(log, C, txt);
             WRITELN(log, '[MAIN]: C is read', #13#10);
         end
         else if not argist then
@@ -62,36 +63,36 @@ begin
 
         if not (argist and filist) then
         begin
-            setread(A);
-            WRITELN(log, #13#10, '[MAIN]: A is read');
+            setread(log, A);
+            WRITELN(log, '[MAIN]: A is read', #13#10);
 
-            setread(B);
-            WRITELN(log, #13#10, '[MAIN]: B is read');
+            setread(log, B);
+            WRITELN(log, '[MAIN]: B is read', #13#10);
 
-            setread(C);
-            WRITELN(log, #13#10, '[MAIN]: C is read');
+            setread(log, C);
+            WRITELN(log, '[MAIN]: C is read', #13#10);
         end;
 
         WRITELN(log);
-        setwrite(A);
+        setwrite(log, A);
         WRITELN(log, '[MAIN]: Set A has written to log file', #13#10);
 
-        setwrite(B);
+        setwrite(log, B);
         WRITELN(log, '[MAIN]: Set B has written to log file', #13#10);
 
-        setwrite(C);
+        setwrite(log, C);
         WRITELN(log, '[MAIN]: Set C has written to log file', #13#10);
 
-        unite(A, B);
-        setwrite(A);
+        unite(log, A, B, I);
+        setwrite(log, I);
         WRITELN(log);
 
-        sub(C, B);
-        setwrite(C);
+        sub(log, C, B, II);
+        setwrite(log, II);
         WRITELN(log);
 
-        cross(A, C);
-        setwrite(A);
+        cross(log, A, C, III);
+        setwrite(log, III);
         WRITELN(log);
 
         close(log);
