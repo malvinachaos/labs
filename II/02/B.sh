@@ -23,6 +23,12 @@ ni[B][B]a builder\n\
             cd ../
         ;;
 
+        "--io")
+            cd src
+            pabcnetc io.pas
+            cd ..
+        ;;
+
         "--build")
             cd src/
             pabcnetc main.pas && mv main.exe ../files/$2
