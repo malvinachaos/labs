@@ -1,9 +1,10 @@
 PROGRAM H;
 
-USES io;
+USES io, udef;
 
 VAR run: boolean = false;
     menu: byte = 0;
+    n: byte;
 
 BEGIN
 
@@ -30,7 +31,14 @@ begin
 
         2:
         begin
+            assign(log, logname);
+            append(log);
 
+            write('Введите число(от 0 до 255): ');
+            readln(n);
+
+
+            close(log);
         end;
 
         3: run:= false;

@@ -1,7 +1,7 @@
 UNIT io;
 
 INTERFACE
-    VAR logname: string = "H.log";
+    VAR logname: string = 'H.log';
         log: text;
 
 INITIALIZATION
