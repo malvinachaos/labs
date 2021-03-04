@@ -2,7 +2,11 @@ UNIT io;
 
 INTERFACE
     VAR logname: string = 'H.log';
-        log: text;
+        log, otxt, itxt: text;
+        fex: boolean = false;
+        aex:= paramcount = 2;
+
+IMPLEMENTATION
 
 INITIALIZATION
     if fileexists(logname) then
@@ -19,7 +23,9 @@ INITIALIZATION
     WRITELN(log, '===================PROGRAM START===================');
     close(log);
 
-IMPLEMENTATION
+    if aex then
+        fex:= fileexists(paramstr(1));
+
 
 FINALIZATION
     assign(log, logname);
