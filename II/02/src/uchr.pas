@@ -6,6 +6,7 @@ INTERFACE
         n: byte;
     end;
 
+    PROCEDURE nullstr(var log: text; var s: ustr);
     PROCEDURE stread(var log: text; var s: ustr);
     PROCEDURE stread(var log: text; var s: ustr; var f: text);
     PROCEDURE stride(var log: text; const s: ustr);
@@ -13,24 +14,31 @@ INTERFACE
     FUNCTION getlength(var log: text; const s: ustr): byte;
     FUNCTION find(var log: text; const ch: char; const s: ustr): byte;
     FUNCTION find(var log: text; const ch, s: ustr): byte;
-    PROCEDURE stropy(var log: text; const s: ustr; const l, k: byte; var s1: ustr);
-    PROCEDURE remove(var log: text; var s: ustr; const l, k: byte);
+    PROCEDURE stropy(var log: text; const s: ustr; const m, n: byte; var s1: ustr);
+    PROCEDURE remove(var log: text; var s: ustr; const m, n: byte);
     PROCEDURE con(var log: text; const s, s1: ustr; var s2: ustr);
 
 
 IMPLEMENTATION
+    PROCEDURE nullstr(var log: text; var s: ustr);
+    begin
+        s.n:= 0;
+        setlength(s.x, s.n);
+    end;
+
     PROCEDURE stread(var log: text; var s: ustr);
     var c: char = '0';
     begin
         WRITE(log, '[STREAD]: Reading from keyboard', #13#10,
                 '[STREAD]: ');
+        read(c);
         while c <> #10 do
         begin
-            read(c);
             s.n += 1;
             setlength(s.x, s.n);
             s.x[s.n-1]:= c;
             WRITE(log, c);
+            read(c);
         end;
             WRITELN(log);
     end;
@@ -41,13 +49,14 @@ IMPLEMENTATION
         reset(f);
         WRITE(log, '[STREAD]: Reading from file', #13#10,
               '[STREAD]: ');
+        read(f, c);
         while c <> #10 do
         begin
-            read(f, c);
             s.n += 1;
             setlength(s.x, s.n);
             s.x[s.n-1]:= c;
             WRITE(log, c);
+            read(f, c);
         end;
         WRITELN(log);
         close(f);
@@ -148,6 +157,7 @@ IMPLEMENTATION
         end
         else
         begin
+            result += 1;
             WRITE(log, '[FIND]: Position of [');
             FOR I:= 0 TO CH.N-1 DO
                 WRITE(log, CH.X);
@@ -161,18 +171,21 @@ IMPLEMENTATION
 
     end;
 
-    PROCEDURE stropy(var log: text; const s: ustr; const l, k: byte; var s1: ustr);
-    var i, p: byte;
+    PROCEDURE stropy(var log: text; const s: ustr; const m, n: byte; var s1: ustr);
+    var i, p, l, k: byte;
     begin
+        l:= m-1;
+        k:= n-1;
+
         s1.n:= 0;
         setlength(s1.x, s1.n);
 
         if (k+l-1) >= s.n then p:= s.n-1
-        else p:= l;
+        else p:= k;
 
-        if k < s.n then
+        if p+l <= s.n then
         begin
-            for i:= k to p+l do
+            for i:= l to p+l do
             begin
                 s1.n += 1;
                 setlength(s1.x, s1.n);
@@ -184,26 +197,34 @@ IMPLEMENTATION
                 WRITE(log, S.X[I]);
             
             WRITE(log, '] was copied [');
-            FOR I:= k TO P+L DO
+            FOR I:= L TO P+L DO
                 WRITE(log, S.X[i]);
             
-            WRITELN(log, '] (from ',l,' to ',l+k-1,')');
+            WRITELN(log, '] (from ',m,' to ',m+n-1,')');
         end;
     end;
 
-    PROCEDURE remove(var log: text; var s: ustr; const l, k: byte);
-    var i, p: byte;
-        sbuf: ustr;
+    PROCEDURE remove(var log: text; var s: ustr; const m, n: byte);
+    var i, p, l, k: byte;
     begin
-        if (k+l-1) >= s.n then p:= s.n-1
-        else p:= k;
+        l:= m-1;
+        k:= n-1;
 
         if l < s.n then
         begin
-            for i:= l to l+p do
-                s.x[i]:= s.x[k-i];
+            if (k+l) > s.n then p:= s.n-l
+            else p:= k;
+            s.n -= p+1;
+
+            for i:= l to s.n-1 do
+            begin
+                WRITELN(log, '[', i, '] = ', s.x[i], ' was replaced by ', 
+                        s.x[i+p]);
+                s.x[i]:= s.x[i+p+1];
+            end;
+
             setlength(s.x, s.n);
-            WRITELN(log, '[REMOVE]: Was deleted from ',l,' to ',l+k-1);
+            WRITELN(log, '[REMOVE]: Was deleted from ',m,' to ',l+k+1);
         end;
     end;
 
