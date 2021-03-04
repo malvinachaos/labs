@@ -3,6 +3,7 @@ UNIT udef;
 INTERFACE
     TYPE ustr = string;
 
+    PROCEDURE nullstr(var log: text; var s: ustr);
     PROCEDURE stread(var log: text; var s: ustr);
     PROCEDURE stread(var log: text; var s: ustr; var f: text);
     PROCEDURE stride(var log: text; const s: ustr);
@@ -16,16 +17,22 @@ INTERFACE
 
 
 IMPLEMENTATION
+    PROCEDURE nullstr(var log: text; var s: ustr);
+    begin
+        s:= '';
+    end;
+
     PROCEDURE stread(var log: text; var s: ustr);
     var c: char = '0';
     begin
         WRITE(log, '[STREAD]: Reading from keyboard', #13#10,
                 '[STREAD]: ');
+        read(c);
         while c <> #10 do
         begin
-            read(c);
             s+= c;
             WRITE(log, c);
+            read(c);
         end;
         WRITELN(log);
     end;
@@ -36,11 +43,12 @@ IMPLEMENTATION
         reset(f);
         WRITE(log, '[STREAD]: Reading from file', #13#10,
                 '[STREAD]: ');
+        read(f, c);
         while c <> #10 do
         begin
-            read(f, c);
             WRITE(log, c);
             s+= c;
+            read(f, c);
         end;
         WRITELN(log);
         close(f);
@@ -88,7 +96,8 @@ IMPLEMENTATION
     PROCEDURE remove(var log: text; var s: ustr; const l, k: byte);
     begin
         delete(s, l, k);
-        WRITELN(log, '[REMOVE]: Was deleted from ',l,' to ',l+k-1);
+        setlength(s, length(s)-k);
+        WRITELN(log, '[REMOVE]: Was deleted from ',l,' to ',l+k);
     end;
 
     PROCEDURE con(var log: text; const s, s1: ustr; var s2: ustr);
