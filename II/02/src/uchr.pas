@@ -16,7 +16,7 @@ INTERFACE
     FUNCTION find(var log: text; const ch, s: ustr): byte;
     PROCEDURE stropy(var log: text; const s: ustr; const m, n: byte; var s1: ustr);
     PROCEDURE remove(var log: text; var s: ustr; const m, n: byte);
-    PROCEDURE con(var log: text; const s, s1: ustr; var s2: ustr);
+    PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
 
 
 IMPLEMENTATION
@@ -208,7 +208,7 @@ IMPLEMENTATION
     var i, p, l, k: byte;
     begin
         l:= m-1;
-        k:= n-1;
+        k:= n;
 
         if l < s.n then
         begin
@@ -218,36 +218,29 @@ IMPLEMENTATION
 
             for i:= l to s.n-1 do
             begin
-                WRITELN(log, '[', i, '] = ', s.x[i], ' was replaced by ', 
+                WRITELN({log,} '[', i, '] = ', s.x[i], ' was replaced by ', 
                         s.x[i+p]);
                 s.x[i]:= s.x[i+p+1];
             end;
 
             setlength(s.x, s.n);
-            WRITELN(log, '[REMOVE]: Was deleted from ',m,' to ',l+k+1);
+            WRITELN({1log,} '[REMOVE]: Was deleted from ',m,' to ',l+k+1);
         end;
     end;
 
-    PROCEDURE con(var log: text; const s, s1: ustr; var s2: ustr);
+    PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
     var i: byte;
     begin
-        s2.n:= s.n + s1.n;
-        setlength(s2.x, s2.n);
+        s1.n += s.n;
+        setlength(s1.x, s1.n);
+        WRITELN({log,} '[CON]: new size of string is ', s1.n);
 
-        WRITE(log, '[CON]: ');
-        for i:= 0 to s.n-1 do
+        for i:= s.n-1 to s1.n-1 do
         begin
-            s2.x[i]:= s.x[i];
-            WRITE(log, s2.x[i]);
+            s1.x[i]:= s.x[i-s.n+1];
+            WRITELN({log,} '[CON]: _[', s.n-2+i, ']_ ', s1.x[s.n-2+i]);
         end;
-
-        WRITE(log, ' + ');
-        for i:= 0 to s1.n-1 do
-        begin
-            s2.x[s.n+i]:= s1.x[i];
-            WRITE(log, s2.x[s.n+i]);
-        end;
-        WRITELN(log);
+        WRITELN({log});
     end;
 
 END.

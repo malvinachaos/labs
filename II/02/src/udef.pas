@@ -13,7 +13,7 @@ INTERFACE
     FUNCTION find(var log: text; const ch, s: ustr): byte;
     PROCEDURE stropy(var log: text; const s: ustr; const l, k: byte; var s1: ustr);
     PROCEDURE remove(var log: text; var s: ustr; const l, k: byte);
-    PROCEDURE con(var log: text; const s, s1: ustr; var s2: ustr);
+    PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
 
 
 IMPLEMENTATION
@@ -96,14 +96,14 @@ IMPLEMENTATION
     PROCEDURE remove(var log: text; var s: ustr; const l, k: byte);
     begin
         delete(s, l, k);
-        setlength(s, length(s)-k);
-        WRITELN(log, '[REMOVE]: Was deleted from ',l,' to ',l+k);
+        //setlength(s, length(s)-k);
+        WRITELN(log, '[REMOVE]: new size of string is _[', length(s), ']_');
     end;
 
-    PROCEDURE con(var log: text; const s, s1: ustr; var s2: ustr);
+    PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
     begin
-        s2:= s + s1;
-        WRITELN(log, '[CON]: ',s,' + ',s1);
+        s1 += s;
+        WRITELN(log, '[CON]: ', s1);
     end;
     
 END.

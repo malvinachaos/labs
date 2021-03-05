@@ -28,9 +28,5 @@ INITIALIZATION
 
 
 FINALIZATION
-    assign(log, logname);
-    append(log);
-    WRITELN(log, '===================PROGRAM FINISH==================');
-    close(log);
 
 END.

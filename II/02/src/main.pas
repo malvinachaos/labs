@@ -1,6 +1,6 @@
 PROGRAM H;
 
-USES io, udef;
+USES io, uchr;
 
 VAR run: boolean = true;
     menu: byte = 0;
@@ -41,6 +41,8 @@ begin
             if aex and fex then
             begin
                 assign(itxt, paramstr(1));
+                assign(otxt, paramstr(2));
+                rewrite(otxt);
                 stread(log, istr, itxt);
             end
             else if (not aex) or (not fex) then
@@ -58,19 +60,30 @@ begin
             else stread(log, istr);
 
             WRITELN(log, '[MAIN]: String was read');
-
             m:= getlength(log, istr);
             while m > 0 do
             begin
                 WRITELN(log);
                 k:= find(log, ' ', istr);
-                stropy(log, istr, 1, k-1, istr_buff);
-                if getlength(log, istr_buff) <= n then
-                    con(log, istr_buff, ostr, ostr);
+                if k = 0 then
+                    k:= m-1;
+
+                stropy(log, istr, 1, k, istr_buff);
+
+                if (getlength(log, istr_buff) - 1) <= n then
+                begin
+                    WRITELN('    [MAIN -> ostr]: ', getlength(log, ostr));
+                    if getlength(log, ostr) = 0 then
+                        stropy(log, istr_buff, 1, k, ostr)
+                    else
+                        con(log, istr_buff, ostr);
+                end;
+
                 remove(log, istr, 1, k);
-                WRITE(log, '    [MAIN -> while ... do -> STRIDE]: ');
-                stride(log, istr);
+
+                m:= getlength(log, istr);
                 WRITELN(log, '  [MAIN -> while ... do]: Size of source string is ', m);
+
             end;
 
             if aex and fex then
@@ -90,7 +103,14 @@ begin
             close(log);
         end;
 
-        3: run:= false;
+        3:
+        begin
+            run:= false;
+            assign(log, logname);
+            append(log);
+            WRITELN(log, '===================PROGRAM FINISH==================');
+            close(log);
+        end;
     end;
 
 end;
