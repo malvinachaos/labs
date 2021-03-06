@@ -94,15 +94,22 @@ IMPLEMENTATION
     end;
 
     PROCEDURE remove(var log: text; var s: ustr; const l, k: byte);
+    var i, m: byte;
     begin
-        delete(s, l, k);
-        //setlength(s, length(s)-k);
+        i:= length(s);
+        if l < i then
+        begin
+            delete(s, l, k);
+            if k > i then m:= l
+            else m:= i-k;
+            setlength(s, m);
+        end;
         WRITELN(log, '[REMOVE]: new size of string is _[', length(s), ']_');
     end;
 
     PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
     begin
-        s1 += s;
+        s1:= s + s1;
         WRITELN(log, '[CON]: ', s1);
     end;
     

@@ -5,7 +5,7 @@ USES io, uchr;
 VAR run: boolean = true;
     menu: byte = 0;
     m, n, len, k, l: byte;
-    istr, istr_buff, ostr: ustr;
+    istr, istr_buff, ostr, sstr: ustr;
 
 
 BEGIN
@@ -63,26 +63,22 @@ begin
             m:= getlength(log, istr);
             while m > 0 do
             begin
-                WRITELN(log);
                 k:= find(log, ' ', istr);
-                if k = 0 then
-                    k:= m-1;
-
-                stropy(log, istr, 1, k, istr_buff);
-
-                if (getlength(log, istr_buff) - 1) <= n then
+                if k <> 0 then
                 begin
-                    WRITELN('    [MAIN -> ostr]: ', getlength(log, ostr));
-                    if getlength(log, ostr) = 0 then
-                        stropy(log, istr_buff, 1, k, ostr)
-                    else
+                    stropy(log, istr, 1, k, istr_buff);
+                    if getlength(log, istr_buff) <= n then
                         con(log, istr_buff, ostr);
-                end;
-
-                remove(log, istr, 1, k);
-
-                m:= getlength(log, istr);
-                WRITELN(log, '  [MAIN -> while ... do]: Size of source string is ', m);
+                    remove(log, istr, 1, k);
+                    m:= getlength(log, istr);
+                end
+                else if m <= n then 
+                begin
+                    con(log, istr, ostr);
+                    remove(log, istr, 1, m);
+                    m:= 0;
+                end
+                else m:= 0;
 
             end;
 

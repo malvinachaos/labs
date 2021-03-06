@@ -29,15 +29,16 @@ IMPLEMENTATION
     PROCEDURE stread(var log: text; var s: ustr);
     var c: char = '0';
     begin
-        WRITE(log, '[STREAD]: Reading from keyboard', #13#10,
-                '[STREAD]: ');
+        WRITELN(log, '[STREAD]: Reading from keyboard');
         read(c);
+        s.n:= 0;
+        setlength(s.x, s.n);
         while c <> #10 do
         begin
             s.n += 1;
             setlength(s.x, s.n);
             s.x[s.n-1]:= c;
-            WRITE(log, c);
+            WRITELN(log, '    [STREAD]: _[', (s.n-1):2, ']_ = ', c);
             read(c);
         end;
             WRITELN(log);
@@ -47,30 +48,31 @@ IMPLEMENTATION
     var c: char = '0';
     begin
         reset(f);
-        WRITE(log, '[STREAD]: Reading from file', #13#10,
-              '[STREAD]: ');
+        WRITELN(log, '[STREAD]: Reading from file');
         read(f, c);
+        s.n:= 0;
+        setlength(s.x, s.n);
         while c <> #10 do
         begin
             s.n += 1;
             setlength(s.x, s.n);
             s.x[s.n-1]:= c;
-            WRITE(log, c);
+            WRITELN(log, '    [STREAD]: _[', (s.n-1):2, ']_ = ', c);
             read(f, c);
         end;
-        WRITELN(log);
+            WRITELN(log);
         close(f);
     end;
+
 
     PROCEDURE stride(var log: text; const s: ustr);
     var i: byte = 0;
     begin
-        WRITE(log, '[STRIDE]: Writing to console', #13#10,
-                '[STRIDE]: ');
+        WRITELN(log, '[STRIDE]: Writing to console');
         for i:= 0 to s.n-1 do
         begin
             write(s.x[i]);
-            WRITE(log, s.x[i]);
+            WRITELN(log, '    [STRIDE]: _[', i:2, ']_ = ', s.x[i]);
         end;
         writeln();
         WRITELN(log);
@@ -79,12 +81,11 @@ IMPLEMENTATION
     PROCEDURE stride(var log: text; const s: ustr; var f: text);
     var i: byte = 0;
     begin
-        WRITE(log, '[STRIDE]: Writing to file', #13#10,
-                '[STRIDE]: ');
+        WRITELN(log, '[STRIDE]: Writing to console');
         for i:= 0 to s.n-1 do
         begin
             write(f, s.x[i]);
-            WRITE(log, s.x[i]);
+            WRITELN(log, '    [STRIDE]: _[', i:2, ']_ = ', s.x[i]);
         end;
         writeln(f);
         WRITELN(log);
@@ -116,7 +117,7 @@ IMPLEMENTATION
             WRITE(log, '[FIND]: Position of [', ch, '] in [');
             FOR I:= 0 TO S.N-1 DO
                 WRITE(log, S.X[I]);
-            WRITE(log, '] is [', result, ']');
+            WRITELN(log, '] is [', result, ']');
         end;
     end;
 
@@ -168,6 +169,7 @@ IMPLEMENTATION
 
             WRITELN(log, '] is [', result, ']');
         end;
+        WRITELN(log);
 
     end;
 
@@ -204,41 +206,50 @@ IMPLEMENTATION
         end;
     end;
 
+
     PROCEDURE remove(var log: text; var s: ustr; const m, n: byte);
-    var i, p, l, k: byte;
+    var i, l, k: byte;
     begin
-        l:= m-1;
-        k:= n;
+        l:= m-1; {начальная позиция}
+        k:= l+n-1; {конечная позиция}
 
         if l < s.n then
         begin
-            if (k+l) > s.n then p:= s.n-l
-            else p:= k;
-            s.n -= p+1;
-
-            for i:= l to s.n-1 do
+            if k < s.n then
             begin
-                WRITELN(log, '[', i, '] = ', s.x[i], ' was replaced by ', 
-                        s.x[i+p]);
-                s.x[i]:= s.x[i+p+1];
+                k:= s.n-n-1;
+                for i:= l to k do
+                begin
+                    WRITELN(log, '    [REMOVE]: _[', i:2, ']_ = ', s.x[i], ' was replaced by ', s.x[i+n]);
+                    s.x[i]:= s.x[i+n];
+                end;
+                s.n -= n;
+            end
+            else
+            begin
+                WRITELN(log, '    [REMOVE] WARNING: The number of characters to be removed is greater than the size of the string');
+                s.n:= m;
             end;
 
             setlength(s.x, s.n);
-            WRITELN(log, '[REMOVE]: Was deleted from ',m,' to ',l+k+1);
+            WRITELN(log, '[REMOVE]: New size of string is ', s.n);
         end;
     end;
 
     PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
-    var i: byte;
+    var i, j: byte;
     begin
         s1.n += s.n;
         setlength(s1.x, s1.n);
         WRITELN(log, '[CON]: new size of string is ', s1.n);
 
-        for i:= s.n-1 to s1.n-1 do
+        if s1.n = s.n then j:= 0
+        else j:= s.n;
+
+        for i:= j to s1.n - 1 do
         begin
-            s1.x[i]:= s.x[i-s.n+1];
-            WRITELN(log, '[CON]: _[', s.n-2+i, ']_ ', s1.x[s.n-2+i]);
+            s1.x[i]:= s.x[i-j];
+            WRITELN(log, '    [CON]: _[', i:2, ']_ = ', s1.x[i]);
         end;
         WRITELN(log);
     end;
