@@ -94,6 +94,10 @@ BEGIN
 
     con(log, engi, game, res);
     stride(log, res);
+    WRITELN(log, 'Testing deleting feature');
+
+    remove(log, res, 3, 5);
+    stride(log, res);
 
     close(log);
 END.
