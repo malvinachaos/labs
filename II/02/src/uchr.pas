@@ -218,13 +218,13 @@ IMPLEMENTATION
 
             for i:= l to s.n-1 do
             begin
-                WRITELN({log,} '[', i, '] = ', s.x[i], ' was replaced by ', 
+                WRITELN(log, '[', i, '] = ', s.x[i], ' was replaced by ', 
                         s.x[i+p]);
                 s.x[i]:= s.x[i+p+1];
             end;
 
             setlength(s.x, s.n);
-            WRITELN({1log,} '[REMOVE]: Was deleted from ',m,' to ',l+k+1);
+            WRITELN(log, '[REMOVE]: Was deleted from ',m,' to ',l+k+1);
         end;
     end;
 
@@ -233,14 +233,14 @@ IMPLEMENTATION
     begin
         s1.n += s.n;
         setlength(s1.x, s1.n);
-        WRITELN({log,} '[CON]: new size of string is ', s1.n);
+        WRITELN(log, '[CON]: new size of string is ', s1.n);
 
         for i:= s.n-1 to s1.n-1 do
         begin
             s1.x[i]:= s.x[i-s.n+1];
-            WRITELN({log,} '[CON]: _[', s.n-2+i, ']_ ', s1.x[s.n-2+i]);
+            WRITELN(log, '[CON]: _[', s.n-2+i, ']_ ', s1.x[s.n-2+i]);
         end;
-        WRITELN({log});
+        WRITELN(log);
     end;
 
 END.
