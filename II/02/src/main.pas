@@ -1,11 +1,12 @@
 PROGRAM H;
 
-USES io, uchr;
+USES io, udef;
 
 VAR run: boolean = true;
     menu: byte = 0;
-    m, n, len, k, l: byte;
-    istr, istr_buff, ostr, sstr: ustr;
+    user_number: byte = 0;
+    m, k, l: byte;
+    istr, istr_buff, ostr: ustr;
 
 
 BEGIN
@@ -36,7 +37,7 @@ begin
             append(log);
 
             write('Введите число(от 0 до 255): ');
-            readln(n);
+            readln(user_number);
 
             if aex and fex then
             begin
@@ -56,8 +57,8 @@ begin
                     WRITELN(log,
                         '[MAIN] ERROR: User specify file that does not exist',
                         #13#10);
-            end
-            else stread(log, istr);
+                stread(log, istr);
+            end;
 
             WRITELN(log, '[MAIN]: String was read');
             m:= getlength(log, istr);
@@ -67,12 +68,12 @@ begin
                 if k <> 0 then
                 begin
                     stropy(log, istr, 1, k, istr_buff);
-                    if getlength(log, istr_buff) <= n then
+                    if getlength(log, istr_buff) <= user_number then
                         con(log, istr_buff, ostr);
                     remove(log, istr, 1, k);
                     m:= getlength(log, istr);
                 end
-                else if m <= n then 
+                else if m <= user_number then 
                 begin
                     con(log, istr, ostr);
                     remove(log, istr, 1, m);

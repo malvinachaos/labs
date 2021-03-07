@@ -23,7 +23,7 @@ INITIALIZATION
     WRITELN(log, '===================PROGRAM START===================');
     close(log);
 
-    if aex then
+    if paramcount > 0 then
         fex:= fileexists(paramstr(1));
 
 

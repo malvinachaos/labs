@@ -81,7 +81,7 @@ IMPLEMENTATION
     PROCEDURE stride(var log: text; const s: ustr; var f: text);
     var i: byte = 0;
     begin
-        WRITELN(log, '[STRIDE]: Writing to console');
+        WRITELN(log, '[STRIDE]: Writing to output file');
         for i:= 0 to s.n-1 do
         begin
             write(f, s.x[i]);
@@ -206,7 +206,6 @@ IMPLEMENTATION
         end;
     end;
 
-
     PROCEDURE remove(var log: text; var s: ustr; const m, n: byte);
     var i, l, k: byte;
     begin
@@ -240,22 +239,21 @@ IMPLEMENTATION
     var i, j: byte;
     begin
         if s1.n = 0 then j:= 0
-        else if s1.n < s.n then j:= s1.n
-        else j:= s.n;
+        else j:= s1.n;
 
         s1.n += s.n;
         setlength(s1.x, s1.n);
-        WRITELN('[CON]: new size of string is ', s1.n);
+        WRITELN(log, '[CON]: new size of string is ', s1.n);
 
-        WRITELN('[CON]: Cycle will starts from ', j, ' to ', s1.n-1);
+        WRITELN(log, '[CON]: Cycle will starts from ', j, ' to ', s1.n-1);
         if j > 1 then
             FOR I:= 0 TO J-1 DO
-                WRITELN('    [CON]: _[', i:2, ']_ = ', s1.x[i]);
+                WRITELN(log, '    [CON]: _[', i:2, ']_ = ', s1.x[i]);
 
         for i:= j to s1.n-1 do
         begin
             s1.x[i]:= s.x[i-j];
-            WRITELN('    [CON]: _[', i:2, '|', (i-j):2, ']_ = ', s1.x[i], ' | ', s.x[i-j]);
+            WRITELN(log, '    [CON]: _[', i:2, '|', (i-j):2, ']_ = ', s1.x[i], ' | ', s.x[i-j]);
         end;
         WRITELN(log);
     end;

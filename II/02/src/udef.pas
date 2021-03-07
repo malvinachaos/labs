@@ -24,14 +24,15 @@ IMPLEMENTATION
 
     PROCEDURE stread(var log: text; var s: ustr);
     var c: char = '0';
+        i: byte = 0;
     begin
-        WRITE(log, '[STREAD]: Reading from keyboard', #13#10,
-                '[STREAD]: ');
+        WRITELN(log, '[STREAD]: Reading from keyboard');
         read(c);
         while c <> #10 do
         begin
             s+= c;
-            WRITE(log, c);
+            WRITELN(log, '    [STREAD]: _[', (i):2, ']_ = ', c);
+            i += 1;
             read(c);
         end;
         WRITELN(log);
@@ -39,15 +40,16 @@ IMPLEMENTATION
 
     PROCEDURE stread(var log: text; var s: ustr; var f: text);
     var c: char = '0';
+        i: byte = 0;
     begin
         reset(f);
-        WRITE(log, '[STREAD]: Reading from file', #13#10,
-                '[STREAD]: ');
+        WRITELN(log, '[STREAD]: Reading from file');
         read(f, c);
         while c <> #10 do
         begin
-            WRITE(log, c);
             s+= c;
+            WRITELN(log, '    [STREAD]: _[', (i):2, ']_ = ', c);
+            i += 1;
             read(f, c);
         end;
         WRITELN(log);
