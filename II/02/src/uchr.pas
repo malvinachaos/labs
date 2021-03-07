@@ -239,17 +239,23 @@ IMPLEMENTATION
     PROCEDURE con(var log: text; const s: ustr; var s1: ustr);
     var i, j: byte;
     begin
-        s1.n += s.n;
-        setlength(s1.x, s1.n);
-        WRITELN(log, '[CON]: new size of string is ', s1.n);
-
-        if s1.n = s.n then j:= 0
+        if s1.n = 0 then j:= 0
+        else if s1.n < s.n then j:= s1.n
         else j:= s.n;
 
-        for i:= j to s1.n - 1 do
+        s1.n += s.n;
+        setlength(s1.x, s1.n);
+        WRITELN('[CON]: new size of string is ', s1.n);
+
+        WRITELN('[CON]: Cycle will starts from ', j, ' to ', s1.n-1);
+        if j > 1 then
+            FOR I:= 0 TO J-1 DO
+                WRITELN('    [CON]: _[', i:2, ']_ = ', s1.x[i]);
+
+        for i:= j to s1.n-1 do
         begin
             s1.x[i]:= s.x[i-j];
-            WRITELN(log, '    [CON]: _[', i:2, ']_ = ', s1.x[i]);
+            WRITELN('    [CON]: _[', i:2, '|', (i-j):2, ']_ = ', s1.x[i], ' | ', s.x[i-j]);
         end;
         WRITELN(log);
     end;
