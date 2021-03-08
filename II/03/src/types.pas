@@ -1,0 +1,10 @@
+UNIT types;
+
+INTERFACE
+    
+    TYPE
+        func = FUNCTION(x: real): real;
+
+IMPLEMENTATION
+
+END.
