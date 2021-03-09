@@ -6,8 +6,6 @@ INTERFACE
     FUNCTION f_12_x(x: real): real;
     FUNCTION f_20(x: real): real;
     FUNCTION f_20_x(x: real): real;
-    FUNCTION f_sin(x: real): real;
-    FUNCTION f_sin_x(x: real): real;
 
 
 IMPLEMENTATION
