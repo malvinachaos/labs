@@ -1,4 +1,4 @@
-# Here is my labs
+# Here are my labs
 
 In folder I, labs from sixth to twelfth are written in FreePascal, so they only have packages compiled for Linux. The rest are written in PascalABC.Net, and they can run on both Windows and Linux
 
