@@ -37,7 +37,7 @@ ni[B][B]a builder\n\
 
         "--full")
             cd src
-            pabcnetc udef.pas && pabcnetc uchr.pas && io.pas
+            pabcnetc udef.pas && pabcnetc uchr.pas && pabcnetc io.pas
             pabcnetc main.pas && mv main.exe ../files/H_def.exe
             vim main.pas
             pabcnetc main.pas && mv main.exe ../files/H_chr.exe
