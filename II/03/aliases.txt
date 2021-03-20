@@ -1,0 +1,5 @@
+export LC_ALL=ru_RU.UTF-8
+alias B="./BoBBi.sh"
+alias LOG="less The_Great_Gig_in_the_Sky.log"
+alias RUN="cd src; pabcnetc methods.pas && cd ../ && B --build && mono approximate_calculation_methods.exe && LOG"
+alias CLS="B --clean"
