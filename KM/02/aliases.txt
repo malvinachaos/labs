@@ -1,0 +1,3 @@
+alias RUN="./B.sh --build; mono summertime_sadness.exe"
+alias LOG="less Phaedra.log"
+alias CLS="./B.sh --clean"
