@@ -31,7 +31,6 @@ write('Выберите опцию:', #13#10,
 readln(menu);
 
 case menu of
-
 	'1':
 	begin
 		assign(log, logname);
@@ -49,7 +48,7 @@ case menu of
         writeln('1)', #13#10, formula_1, #13#10);
         writeln(#13#10, '2)', #13#10, formula_2, #13#10);
         segments(log, a, b, e, choice);
-        eps:= trunc(ln(round(1/e))/ln(10));
+        eps:= trunc(ln(round(1/e))/ln(10)) + 1;
         WRITELN(log, '[MAIN]: Count of output symbols after dot is ', eps, #13#10);
  
         case choice of
@@ -57,25 +56,35 @@ case menu of
             begin
                 simple_iterations(log, eps, a, b, e, f_12, res1, it1);
                 tangent(log, eps, a, b, e, f_12_x, res2, it2);
-                newton(log, eps, e, f_12_x, res3, it3);
+                newton(log, eps, a, b, e, f_12_x, res3, it3);
             end;
  
             2:
             begin
                 simple_iterations(log, eps, a, b, e, f_20, res1, it1);
                 tangent(log, eps, a, b, e, f_20_x, res2, it2);
-                newton(log, eps, e, f_20_x, res3, it3);
+                newton(log, eps, a, b, e, f_20_x, res3, it3);
             end;
         end;
  
-        writeln('Результат метода простых итераций = ', res1:8:eps, #13#10,
-                'Количество итераций = ', it1, #13#10);
+        if (res1 > a) and (res1 < b) then
+            writeln('Результат метода простых итераций = ', res1:8:eps, #13#10,
+                    'Количество итераций = ', it1, #13#10)
+        else
+            writeln('Корень вышел за пределы выбранного отрезка');
 
-        writeln('Результат метода секущих: ', res2:8:eps, #13#10,
-                'Количество итераций = ', it2, #13#10);
+        if (res2 > a) and (res2 < b) then
+            writeln('Результат метода секущих: ', res2:8:eps, #13#10,
+                    'Количество итераций = ', it2, #13#10)
+        else
+            writeln('Производная функции на выбранном отрезке меняется быстро,',
+                    ' поэтому она расходится, данный метод не применим');
 
-        writeln('Результат метода Ньютона = ', res3:8:eps, #13#10,
-                'Количество итераций = ', it3, #13#10);
+        if (res3 > a) and (res1 < b) then
+            writeln('Результат метода Ньютона = ', res3:8:eps, #13#10,
+                    'Количество итераций = ', it3, #13#10)
+        else
+            writeln('Корень вышел за пределы выбранного отрезка');
  
         close(log);
 	end;
@@ -90,6 +99,6 @@ case menu of
     end;
 
 end;
-
 end;
+
 END.

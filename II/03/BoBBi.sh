@@ -34,7 +34,7 @@ do
         ;;
 
         "--clean")
-            rm -rfv src/*.pcu src/main.exe.mdb $name
+            rm -rfv src/*.pcu src/main.exe.mdb $name The_Great_Gig_in_the_Sky.log src/*.log
         ;;
 
     esac
