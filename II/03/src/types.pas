@@ -1,9 +1,8 @@
 UNIT types;
 
 INTERFACE
-    
-    TYPE
-        func = FUNCTION(x: real): real;
+
+TYPE func = FUNCTION(x: real): real;
 
 IMPLEMENTATION
 
