@@ -1,0 +1,5 @@
+.pc.session
+*.exe
+*.pcu
+*.mdb
+*.log
